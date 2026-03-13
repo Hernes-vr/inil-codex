@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta property="og:title" content="惑星イニル — World Codex">
+<meta property="og:description" content="Planet Inir worldbuilding reference — HL206 W14. 天体・文明・種族・勢力・歴史の全体像。">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://raw.githubusercontent.com/USERNAME/inil-codex/main/ogp.png">
+<meta name="theme-color" content="#4eb8d6">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌏</text></svg>">
+
+<meta name="viewport" content="width=1920">
+<title>惑星イニル — World Codex</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Sans+JP:wght@300;400;500;700;900&family=Noto+Serif+JP:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #06070c;
+  --bg-card: #0c0e18;
+  --bg-surface: #101320;
+  --border: rgba(255,255,255,0.05);
+
+  --amber: #e0a535;
+  --amber-dim: rgba(224,165,53,0.12);
+  --teal: #4eb8d6;
+  --teal-dim: rgba(78,184,214,0.10);
+  --purple: #7e8fd4;
+  --purple-dim: rgba(126,143,212,0.08);
+  --ember: #9a8e7c;
+  --ember-dim: rgba(154,142,124,0.08);
+  --ocean: #3a8eb8;
+  --red: #c45050;
+
+  --text: #e0dcd4;
+  --text-mid: rgba(255,255,255,0.65);
+  --text-dim: rgba(255,255,255,0.45);
+  --text-ghost: rgba(255,255,255,0.22);
+
+  --serif: 'Noto Serif JP', 'Cormorant Garamond', serif;
+  --sans: 'Noto Sans JP', sans-serif;
+  --display: 'Cormorant Garamond', 'Noto Serif JP', serif;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; background: var(--bg); }
+body {
+  font-family: var(--sans);
+  color: var(--text);
+  background: var(--bg);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.15); }
+
+/* PROGRESS BAR */
+#progress {
+  position: fixed; top: 0; left: 0; height: 2px; z-index: 1000;
+  background: linear-gradient(90deg, var(--amber), var(--teal), var(--purple));
+  width: 0%; transition: width 0.1s;
+}
+
+/* SIDE NAV */
+#sidenav {
+  position: fixed; right: 32px; top: 50%; transform: translateY(-50%);
+  z-index: 100; display: flex; flex-direction: column; gap: 14px;
+}
+.nav-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.15);
+  background: transparent; cursor: pointer;
+  transition: all 0.3s; position: relative;
+}
+.nav-dot:hover, .nav-dot.active {
+  border-color: var(--teal);
+  background: var(--teal);
+  box-shadow: 0 0 12px rgba(78,184,214,0.3);
+}
+.nav-dot .nav-label {
+  position: absolute; right: 22px; top: 50%; transform: translateY(-50%);
+  white-space: nowrap; font-size: 13px; color: rgba(255,255,255,0.5);
+  opacity: 0; transition: opacity 0.2s; pointer-events: none;
+  background: rgba(6,7,12,0.9); padding: 3px 10px; border-radius: 4px;
+}
+.nav-dot:hover .nav-label { opacity: 1; }
+
+/* SECTION BASE */
+.section {
+  min-height: 100vh; position: relative;
+  padding: 80px 0;
+  display: flex; justify-content: center;
+}
+.section-inner {
+  width: 1400px; max-width: calc(100vw - 120px);
+}
+
+/* REVEAL ANIMATION */
+.reveal {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.visible {
+  opacity: 1; transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ==================== HERO ==================== */
+#hero {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center;
+  background:
+    radial-gradient(ellipse 1000px 600px at 50% 40%, rgba(78,184,214,0.04), transparent 70%),
+    radial-gradient(ellipse 600px 400px at 30% 70%, rgba(126,143,212,0.03), transparent),
+    radial-gradient(ellipse 500px 400px at 75% 30%, rgba(212,160,65,0.02), transparent),
+    var(--bg);
+  position: relative; overflow: hidden;
+}
+#hero::before {
+  content: ''; position: absolute; inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.45), transparent),
+    radial-gradient(1px 1px at 25% 45%, rgba(255,255,255,0.15), transparent),
+    radial-gradient(1px 1px at 40% 10%, rgba(255,255,255,0.2), transparent),
+    radial-gradient(1px 1px at 55% 80%, rgba(255,255,255,0.12), transparent),
+    radial-gradient(1px 1px at 70% 30%, rgba(255,255,255,0.18), transparent),
+    radial-gradient(1px 1px at 85% 60%, rgba(255,255,255,0.15), transparent),
+    radial-gradient(1px 1px at 15% 90%, rgba(255,255,255,0.1), transparent),
+    radial-gradient(1px 1px at 90% 85%, rgba(255,255,255,0.2), transparent),
+    radial-gradient(1.5px 1.5px at 50% 50%, rgba(78,184,214,0.3), transparent),
+    radial-gradient(1.5px 1.5px at 65% 20%, rgba(212,160,65,0.2), transparent);
+  background-size: 300px 300px;
+  animation: drift 80s linear infinite;
+}
+@keyframes drift {
+  from { transform: translate(0,0); }
+  to { transform: translate(-300px, -300px); }
+}
+
+.hero-tag {
+  font-family: var(--display);
+  font-size: 13px; letter-spacing: 8px; text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+  animation: fadeUp 1.2s 0.2s both;
+}
+.hero-title {
+  font-family: var(--serif);
+  font-weight: 900; font-size: 72px; letter-spacing: 8px;
+  background: linear-gradient(135deg, var(--text) 0%, var(--teal) 35%, var(--purple) 65%, var(--amber) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  margin-bottom: 8px;
+  animation: fadeUp 1.2s 0.4s both;
+}
+.hero-sub {
+  font-family: var(--display);
+  font-size: 22px; letter-spacing: 12px; text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 12px;
+  animation: fadeUp 1.2s 0.6s both;
+}
+.hero-ver {
+  font-size: 15px; color: var(--text-ghost);
+  margin-bottom: 40px;
+  animation: fadeUp 1.2s 0.8s both;
+}
+.hero-scroll {
+  animation: fadeUp 1.2s 1s both;
+  font-size: 15px; color: var(--text-dim); letter-spacing: 3px;
+}
+.hero-scroll span {
+  display: inline-block;
+  animation: bounce 2s 2s infinite;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes bounce {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+/* ==================== SECTION HEADERS ==================== */
+.sec-tag {
+  font-family: var(--display);
+  font-size: 13px; letter-spacing: 6px; text-transform: uppercase;
+  color: var(--text-ghost); margin-bottom: 8px;
+}
+.sec-title {
+  font-family: var(--serif);
+  font-weight: 900; font-size: 44px; margin-bottom: 6px;
+}
+.sec-title.gradient-teal {
+  background: linear-gradient(90deg, var(--text), var(--teal));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.sec-title.gradient-purple {
+  background: linear-gradient(90deg, var(--purple), var(--teal));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.sec-title.gradient-amber {
+  background: linear-gradient(90deg, var(--amber), var(--ember));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.sec-title.gradient-red {
+  background: linear-gradient(90deg, var(--text), var(--red));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.sec-title.gradient-mixed {
+  background: linear-gradient(90deg, var(--teal), var(--amber));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.sec-sub {
+  font-family: var(--display);
+  font-size: 15px; color: var(--text-dim); letter-spacing: 3px;
+  margin-bottom: 48px;
+}
+
+/* ==================== CARDS ==================== */
+.card {
+  border-radius: 14px; padding: 32px 30px;
+  position: relative; overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+.card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+}
+.card.moonbow { background: rgba(78,184,214,0.04); border: 1px solid rgba(78,184,214,0.1); }
+.card.moonbow::before { background: linear-gradient(90deg, var(--teal), var(--purple)); }
+.card.surface { background: var(--amber-dim); border: 1px solid rgba(212,160,65,0.1); }
+.card.surface::before { background: linear-gradient(90deg, var(--amber), #e8b84a); }
+.card.grey { background: var(--ember-dim); border: 1px solid rgba(154,142,124,0.1); }
+.card.grey::before { background: linear-gradient(90deg, var(--ember), #8a7d6e); }
+.card.ocean { background: rgba(42,138,170,0.05); border: 1px solid rgba(42,138,170,0.1); }
+.card.ocean::before { background: linear-gradient(90deg, var(--ocean), var(--teal)); }
+.card.danger { background: rgba(196,80,80,0.04); border: 1px solid rgba(196,80,80,0.1); }
+.card.danger::before { background: var(--red); }
+.card.neutral { background: rgba(255,255,255,0.02); border: 1px solid var(--border); }
+
+.card-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px; }
+.card-name { font-family: var(--serif); font-weight: 700; font-size: 26px; }
+.card-name.teal { color: var(--teal); }
+.card-name.amber { color: var(--amber); }
+.card-name.ember { color: var(--ember); }
+.card-name.ocean { color: var(--ocean); }
+.card-name.red { color: var(--red); }
+.card-pop { font-size: 15px; color: var(--text-dim); }
+.card-pop b { color: var(--text-mid); font-size: 18px; }
+
+.zone-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.zone {
+  background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 8px; padding: 12px 16px; font-size: 14px; color: var(--text-mid);
+  transition: background 0.2s;
+}
+.zone:hover { background: rgba(255,255,255,0.05); }
+.zone b { display: block; font-size: 15px; color: var(--text); margin-bottom: 2px; }
+.zone small { color: var(--text-dim); font-size: 13px; }
+
+.card-desc {
+  font-size: 18px; line-height: 1.85; color: var(--text-dim);
+}
+.card-desc strong { color: var(--text-mid); }
+
+/* ROW DATA */
+.data-row {
+  display: flex; justify-content: space-between; font-size: 15px;
+  padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.025);
+  color: var(--text-mid);
+}
+.data-row span:first-child { color: var(--text-dim); font-size: 14px; }
+
+/* GRIDS */
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+.mb-24 { margin-bottom: 24px; }
+.mb-32 { margin-bottom: 32px; }
+.mb-40 { margin-bottom: 40px; }
+
+/* CALLOUT */
+.callout {
+  background: rgba(255,255,255,0.015); border: 1px solid var(--border);
+  border-radius: 0 12px 12px 0; padding: 26px 32px;
+}
+.callout.purple { border-left: 3px solid var(--purple); }
+.callout.teal { border-left: 3px solid var(--teal); }
+.callout.red { border-left: 3px solid var(--red); }
+.callout-title { font-weight: 700; font-size: 17px; margin-bottom: 8px; }
+.callout-title.purple { color: var(--purple); }
+.callout-title.teal { color: var(--teal); }
+.callout-title.red { color: var(--red); }
+.callout-text { font-size: 15px; line-height: 1.85; color: var(--text-dim); }
+.callout-text strong { color: var(--text-mid); }
+
+/* SPECIES CARDS */
+.sp-card { border-radius: 12px; padding: 24px 20px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); transition: transform 0.3s, border-color 0.3s; }
+.sp-card:hover { transform: translateY(-3px); border-color: rgba(255,255,255,0.1); }
+.sp-name { font-family: var(--serif); font-weight: 700; font-size: 24px; margin-bottom: 4px; }
+.sp-en { font-size: 13px; color: var(--text-ghost); letter-spacing: 2px; margin-bottom: 12px; }
+.sp-feat { font-size: 15px; color: var(--text-dim); margin-top: 10px; line-height: 1.7; }
+
+/* AP-I BARS */
+.api-bar-wrap { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+.api-label { width: 120px; font-size: 14px; color: var(--text-dim); text-align: right; flex-shrink: 0; }
+.api-track { flex: 1; height: 36px; background: rgba(255,255,255,0.02); border-radius: 6px; overflow: hidden; position: relative; }
+.api-fill { height: 100%; border-radius: 6px; display: flex; align-items: center; padding-left: 10px; font-size: 13px; color: rgba(255,255,255,0.75); transition: width 1.2s cubic-bezier(0.16,1,0.3,1); }
+.api-pct { width: 54px; font-size: 14px; color: var(--text-dim); text-align: right; flex-shrink: 0; }
+
+/* FACTION PILL */
+.faction {
+  border-radius: 10px; padding: 18px 20px;
+  background: rgba(255,255,255,0.015); border: 1px solid var(--border);
+  padding-left: 24px; position: relative;
+  transition: transform 0.2s, background 0.2s;
+}
+.faction:hover { transform: translateX(4px); background: rgba(255,255,255,0.03); }
+.faction::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; border-radius: 3px 0 0 3px; }
+.faction.sf::before { background: var(--amber); }
+.faction.m::before { background: var(--teal); }
+.faction.g::before { background: var(--ember); }
+.faction.o::before { background: var(--ocean); }
+.faction.info::before { background: var(--purple); }
+.fac-name { font-weight: 700; font-size: 17px; margin-bottom: 4px; }
+.fac-name.sf { color: var(--amber); } .fac-name.m { color: var(--teal); }
+.fac-name.g { color: var(--ember); } .fac-name.o { color: var(--ocean); }
+.fac-name.info { color: var(--purple); }
+.fac-desc { font-size: 15px; color: var(--text-dim); line-height: 1.65; }
+.fac-desc b { color: var(--text-mid); }
+
+/* MILITARY */
+.mil-foot { font-size: 15px; color: var(--text-dim); margin-top: 10px; line-height: 1.7; }
+.mil-foot strong { color: var(--text-mid); }
+
+/* TREATY TABLE */
+.treaty-grid { display: grid; grid-template-columns: 180px 1fr 1fr; gap: 0; font-size: 15px; }
+.tr-cell { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.025); }
+.tr-head { color: var(--text-dim); font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.01); }
+.tr-name { color: var(--text-mid); font-weight: 500; }
+.tr-ok { color: rgba(78,184,214,0.6); }
+.tr-fail { color: rgba(196,80,80,0.6); }
+
+/* TIMELINE */
+.timeline { position: relative; padding-left: 48px; }
+.timeline::before {
+  content: ''; position: absolute; left: 16px; top: 0; bottom: 0; width: 1px;
+  background: linear-gradient(to bottom, var(--amber-dim), var(--purple-dim), rgba(196,80,80,0.15), var(--teal-dim));
+}
+.tl-item {
+  position: relative; margin-bottom: 20px;
+  padding: 16px 22px; background: rgba(255,255,255,0.015);
+  border: 1px solid rgba(255,255,255,0.03); border-radius: 10px;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.tl-item:hover { border-color: rgba(255,255,255,0.08); transform: translateX(4px); }
+.tl-item::before {
+  content: ''; position: absolute; left: -38px; top: 20px;
+  width: 10px; height: 10px; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.12); background: var(--bg);
+}
+.tl-item.war::before { background: var(--red); border-color: var(--red); }
+.tl-item.crisis::before { background: var(--amber); border-color: var(--amber); }
+.tl-item.peace::before { background: var(--teal); border-color: var(--teal); }
+.tl-item.now::before { background: var(--purple); border-color: var(--purple); box-shadow: 0 0 12px rgba(126,143,212,0.4); }
+.tl-date { font-weight: 700; font-size: 16px; color: var(--text-mid); margin-bottom: 4px; }
+.tl-date.war { color: var(--red); } .tl-date.crisis { color: var(--amber); }
+.tl-date.peace { color: var(--teal); } .tl-date.now { color: var(--purple); }
+.tl-text { font-size: 15px; color: var(--text-dim); line-height: 1.75; }
+.tl-text b { color: var(--text-mid); }
+
+/* END SCENARIOS */
+.end-card {
+  border-radius: 12px; padding: 24px 16px; text-align: center;
+  transition: transform 0.3s;
+}
+.end-card:hover { transform: scale(1.04); }
+.end-icon { font-size: 28px; margin-bottom: 8px; }
+.end-name { font-weight: 700; font-size: 16px; margin-bottom: 6px; }
+.end-score { font-family: var(--serif); font-size: 28px; font-weight: 700; margin-bottom: 6px; }
+.end-desc { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
+
+.end-card.war { background: rgba(196,80,80,0.06); border: 1px solid rgba(196,80,80,0.12); }
+.end-card.war .end-name, .end-card.war .end-score { color: var(--red); }
+.end-card.ctrl { background: var(--amber-dim); border: 1px solid rgba(212,160,65,0.12); }
+.end-card.ctrl .end-name, .end-card.ctrl .end-score { color: var(--amber); }
+.end-card.grey { background: var(--ember-dim); border: 1px solid rgba(154,142,124,0.12); }
+.end-card.grey .end-name, .end-card.grey .end-score { color: var(--ember); }
+.end-card.star { background: var(--purple-dim); border: 1px solid rgba(126,143,212,0.12); }
+.end-card.star .end-name, .end-card.star .end-score { color: var(--purple); }
+.end-card.peace { background: var(--teal-dim); border: 1px solid rgba(78,184,214,0.12); }
+.end-card.peace .end-name, .end-card.peace .end-score { color: var(--teal); }
+
+/* DAILY LIFE */
+.vig { border-radius: 12px; padding: 22px 20px; position: relative; overflow: hidden; padding-left: 24px; }
+.vig::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; }
+.vig.sf { background: rgba(212,160,65,0.03); border: 1px solid rgba(212,160,65,0.06); }
+.vig.sf::before { background: var(--amber); }
+.vig.m { background: rgba(78,184,214,0.03); border: 1px solid rgba(78,184,214,0.06); }
+.vig.m::before { background: var(--teal); }
+.vig.g { background: rgba(154,142,124,0.03); border: 1px solid rgba(154,142,124,0.06); }
+.vig.g::before { background: var(--ember); }
+.vig.o { background: rgba(42,138,170,0.03); border: 1px solid rgba(42,138,170,0.06); }
+.vig.o::before { background: var(--ocean); }
+.v-who { font-weight: 700; font-size: 16px; margin-bottom: 8px; }
+.v-who.sf { color: var(--amber); } .v-who.m { color: var(--teal); }
+.v-who.g { color: var(--ember); } .v-who.o { color: var(--ocean); }
+.v-text { font-size: 15px; color: var(--text-dim); line-height: 1.8; }
+
+/* DESIGN PRINCIPLES */
+.princ {
+  border-radius: 12px; padding: 22px 20px;
+  background: rgba(126,143,212,0.03); border: 1px solid rgba(126,143,212,0.08);
+  transition: transform 0.3s;
+}
+.princ:hover { transform: translateY(-2px); }
+.princ-num { font-family: var(--display); font-size: 24px; font-weight: 700; color: rgba(126,143,212,0.3); margin-bottom: 6px; }
+.princ-text { font-size: 15px; color: var(--text-dim); line-height: 1.75; }
+
+/* FOOTER */
+#footer {
+  text-align: center; padding: 48px 0;
+  border-top: 1px solid var(--border);
+  color: var(--text-ghost); font-size: 13px; letter-spacing: 3px;
+}
+
+/* SEA CARDS */
+.sea-card { background:rgba(255,255,255,0.015); border:1px solid var(--border); border-radius:10px; padding:18px; text-align:center; transition:transform 0.3s; }
+.sea-card:hover { transform:translateY(-2px); }
+.sea-name { font-weight:700; font-size:20px; margin-bottom:8px; }
+.sea-desc { font-size: 15px; color:var(--text-dim); line-height:1.6; }
+
+/* SUB HEADINGS */
+h3.sec-h3 { font-family:var(--serif); font-weight:700; font-size:22px; color:var(--text-mid); margin-bottom:18px; }
+
+/* DISC */
+.disc-axis { font-size:14px; color:var(--text-ghost); margin-bottom:10px; font-style:italic; }
+.disc-row { font-size:15px; line-height:1.8; color:var(--text-dim); padding:3px 0; }
+.disc-row b { color:var(--text-mid); }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<nav id="sidenav">
+  <div class="nav-dot active" onclick="scrollTo('#hero')"><span class="nav-label">表紙</span></div>
+  <div class="nav-dot" onclick="scrollTo('#celestial')"><span class="nav-label">天体構造</span></div>
+  <div class="nav-dot" onclick="scrollTo('#civilizations')"><span class="nav-label">三文明圏</span></div>
+  <div class="nav-dot" onclick="scrollTo('#species')"><span class="nav-label">種族・AP-I</span></div>
+  <div class="nav-dot" onclick="scrollTo('#factions')"><span class="nav-label">勢力・軍事</span></div>
+  <div class="nav-dot" onclick="scrollTo('#history')"><span class="nav-label">歴史・終局</span></div>
+  <div class="nav-dot" onclick="scrollTo('#culture')"><span class="nav-label">文化・日常</span></div>
+</nav>
+
+<!-- ==================== HERO ==================== -->
+<section id="hero">
+  <div>
+    <div class="hero-tag">World Setting Reference</div>
+    <div class="hero-title">惑星イニル</div>
+    <div class="hero-sub">Planet Inir</div>
+    <div class="hero-ver">HL206 W14 — World Design Codex</div>
+    <div class="hero-scroll">SCROLL <span>↓</span></div>
+  </div>
+</section>
+
+<!-- ==================== CELESTIAL ==================== -->
+<section id="celestial" class="section" style="background:radial-gradient(ellipse 800px 500px at 50% 30%,rgba(78,184,214,0.03),transparent 70%),var(--bg)">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="sec-tag">01 · Celestial Structure</div>
+      <div class="sec-title gradient-teal">天体構造</div>
+      <div class="sec-sub">Solevian system — a planet caught between two lights</div>
+    </div>
+
+    <div class="reveal reveal-delay-1" style="margin-bottom:40px">
+      <svg viewBox="0 0 1400 420" style="width:100%" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="sg2"><stop offset="0%" stop-color="#e0a535" stop-opacity="0.6"/><stop offset="100%" stop-color="#e0a535" stop-opacity="0"/></radialGradient>
+          <radialGradient id="pg2"><stop offset="0%" stop-color="#4eb8d6" stop-opacity="0.1"/><stop offset="80%" stop-color="transparent"/></radialGradient>
+          <radialGradient id="ag2"><stop offset="0%" stop-color="#7e8fd4" stop-opacity="0.45"/><stop offset="100%" stop-color="#7e8fd4" stop-opacity="0"/></radialGradient>
+          <linearGradient id="is2"><stop offset="0%" stop-color="#1a3a4a"/><stop offset="50%" stop-color="#0f2a35"/><stop offset="100%" stop-color="#2a3a2a"/></linearGradient>
+        </defs>
+        <circle cx="60" cy="30" r="1" fill="rgba(255,255,255,0.2)"/><circle cx="200" cy="70" r="0.8" fill="rgba(255,255,255,0.15)"/>
+        <circle cx="400" cy="20" r="1.1" fill="rgba(255,255,255,0.18)"/><circle cx="600" cy="55" r="0.7" fill="rgba(255,255,255,0.2)"/>
+        <circle cx="900" cy="25" r="0.9" fill="rgba(255,255,255,0.15)"/><circle cx="1100" cy="50" r="1" fill="rgba(255,255,255,0.18)"/>
+        <circle cx="1300" cy="35" r="0.8" fill="rgba(255,255,255,0.12)"/>
+
+        <circle cx="180" cy="210" r="85" fill="url(#sg2)" opacity="0.3"/>
+        <circle cx="180" cy="210" r="22" fill="#e0a535" opacity="0.35"/><circle cx="180" cy="210" r="15" fill="#edb545" opacity="0.7"/>
+        <circle cx="180" cy="210" r="10" fill="#f0d080"/>
+        <text x="180" y="265" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="15" fill="#e0a535" font-weight="700" letter-spacing="2">SOLEVIAN</text>
+        <text x="180" y="284" text-anchor="middle" font-family="Noto Sans JP,sans-serif" font-size="10" fill="rgba(212,160,65,0.4)">恒星ソレヴィアン</text>
+
+        <line x1="230" y1="208" x2="530" y2="204" stroke="rgba(212,160,65,0.05)" stroke-width="50"/>
+        <ellipse cx="530" cy="210" rx="380" ry="170" fill="none" stroke="rgba(255,255,255,0.02)" stroke-width="1" stroke-dasharray="5 12"/>
+
+        <circle cx="660" cy="210" r="130" fill="url(#pg2)"/>
+        <circle cx="660" cy="210" r="80" fill="url(#is2)" stroke="rgba(255,255,255,0.06)" stroke-width="0.8"/>
+        <line x1="660" y1="130" x2="660" y2="290" stroke="rgba(255,255,255,0.1)" stroke-width="0.8" stroke-dasharray="3 5"/>
+        <path d="M660 130 A80 80 0 0 1 660 290" fill="rgba(78,184,214,0.1)"/>
+        <path d="M660 290 A80 80 0 0 1 660 130" fill="rgba(212,160,65,0.07)"/>
+        <rect x="655" y="130" width="10" height="160" fill="rgba(154,142,124,0.15)" rx="3"/>
+        <ellipse cx="635" cy="195" rx="18" ry="7" fill="rgba(42,107,138,0.2)" transform="rotate(-10 635 195)"/>
+        <ellipse cx="685" cy="235" rx="22" ry="8" fill="rgba(42,107,138,0.2)" transform="rotate(8 685 235)"/>
+        <text x="622" y="208" text-anchor="middle" font-size="11" fill="rgba(212,160,65,0.55)">照界</text>
+        <text x="700" y="208" text-anchor="middle" font-size="11" fill="rgba(78,184,214,0.55)">月虹界</text>
+        <text x="660" y="320" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="20" fill="#e0dcd4" font-weight="700" letter-spacing="4">INIR</text>
+        <text x="660" y="340" text-anchor="middle" font-size="11" fill="rgba(255,255,255,0.3)">惑星イニル</text>
+
+        <path d="M755 175 C790 155,830 155,860 175" fill="none" stroke="rgba(126,143,212,0.18)" stroke-width="0.8"/>
+        <polygon points="858,173 863,177 858,181" fill="rgba(126,143,212,0.25)"/>
+        <text x="818" y="160" text-anchor="middle" font-size="9" fill="rgba(126,143,212,0.3)">潮汐固定</text>
+
+        <circle cx="1020" cy="155" r="65" fill="url(#ag2)" opacity="0.2"/>
+        <circle cx="1020" cy="155" r="30" fill="rgba(126,143,212,0.1)" stroke="rgba(126,143,212,0.2)" stroke-width="0.8"/>
+        <circle cx="1020" cy="155" r="18" fill="rgba(126,143,212,0.2)"/><circle cx="1020" cy="155" r="10" fill="rgba(160,170,220,0.45)"/>
+        <line x1="990" y1="168" x2="745" y2="198" stroke="rgba(126,143,212,0.04)" stroke-width="22"/>
+        <text x="1020" y="205" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="15" fill="#7e8fd4" font-weight="700" letter-spacing="2">ASTRALUM</text>
+        <text x="1020" y="224" text-anchor="middle" font-size="10" fill="rgba(126,143,212,0.4)">宵照星アストラルム</text>
+
+        <rect x="960" y="270" width="380" height="130" rx="10" fill="rgba(255,255,255,0.012)" stroke="rgba(255,255,255,0.03)"/>
+        <text x="982" y="296" font-size="11" fill="var(--text-dim)" font-weight="700">天体の特異性</text>
+        <text x="982" y="316" font-size="10" fill="rgba(255,255,255,0.42)">• アストラルムは空の一点に固定（公転=自転=24h）</text>
+        <text x="982" y="334" font-size="10" fill="rgba(255,255,255,0.42)">• 月虹界からは常時可視 / 照界からは永久不可視</text>
+        <text x="982" y="352" font-size="10" fill="rgba(255,255,255,0.42)">• 上位存在が改造した惑星規模の実験装置</text>
+        <text x="982" y="374" font-size="10" fill="rgba(126,143,212,0.4)">• 粒子力学・地脈極性・環境維持すべての根源</text>
+      </svg>
+    </div>
+
+    <div class="grid-4 mb-32 reveal reveal-delay-2">
+      <div class="sp-card" style="text-align:center"><div class="sp-name" style="color:var(--teal);font-size:34px">10,200<span style="font-size:17px">km</span></div><div class="sp-en">直径（地球の0.8倍）</div></div>
+      <div class="sp-card" style="text-align:center"><div class="sp-name" style="color:var(--purple);font-size:34px">2,800<span style="font-size:17px">万</span></div><div class="sp-en">惑星総人口</div></div>
+      <div class="sp-card" style="text-align:center"><div class="sp-name" style="color:var(--amber);font-size:34px">70<span style="font-size:17px">%</span></div><div class="sp-en">海洋率（全球海）</div></div>
+      <div class="sp-card" style="text-align:center"><div class="sp-name" style="color:var(--ember);font-size:34px">24<span style="font-size:17px">h</span></div><div class="sp-en">自転周期</div></div>
+    </div>
+
+    <div class="grid-3 mb-32 reveal reveal-delay-3">
+      <div class="card moonbow">
+        <div class="card-name teal">月虹界</div><div style="font-size:14px;color:var(--text-ghost);letter-spacing:2px;margin-bottom:14px">MOONBOW · 衛星面</div>
+        <div class="data-row"><span>アストラルム</span>常時可視</div>
+        <div class="data-row"><span>粒子密度</span>高密度・活性</div>
+        <div class="data-row"><span>光環境</span>二重光源・柔光</div>
+        <div class="data-row"><span>夜間</span>オーロラで暖かい</div>
+        <div class="data-row"><span>文明基盤</span>粒子循環（95%+）</div>
+      </div>
+      <div class="card surface">
+        <div class="card-name amber">照界</div><div style="font-size:14px;color:var(--text-ghost);letter-spacing:2px;margin-bottom:14px">SURFACE · 恒星面</div>
+        <div class="data-row"><span>アストラルム</span>永久不可視</div>
+        <div class="data-row"><span>粒子密度</span>希薄・弱い</div>
+        <div class="data-row"><span>光環境</span>直射・強烈な熱</div>
+        <div class="data-row"><span>夜間</span>真の闇（光源ゼロ）</div>
+        <div class="data-row"><span>文明基盤</span>熱光炉（80%）</div>
+      </div>
+      <div class="card grey">
+        <div class="card-name ember">灰境</div><div style="font-size:14px;color:var(--text-ghost);letter-spacing:2px;margin-bottom:14px">GRAYBELT · リム帯</div>
+        <div class="data-row"><span>アストラルム</span>秤動で日々出没</div>
+        <div class="data-row"><span>粒子密度</span>不安定・日変動</div>
+        <div class="data-row"><span>光環境</span>毎日変わる</div>
+        <div class="data-row"><span>夜間</span>予測不能</div>
+        <div class="data-row"><span>文明基盤</span>混合（廃材+盗電+人力）</div>
+      </div>
+    </div>
+
+    <div class="callout purple reveal reveal-delay-4">
+      <div class="callout-title purple">設計の核心 — 二項対立ではない</div>
+      <div class="callout-text">照界にも地脈噴出点付近には粒子が存在し、高AP-I個体も生まれる。月虹界のアエルファ高原にも粒子希薄域がある。「照界＝粒子なし」は<strong>政治的に維持されている虚構</strong>。世界はグラデーションで成立している。</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ==================== CIVILIZATIONS ==================== -->
+<section id="civilizations" class="section" style="background:radial-gradient(ellipse 700px 400px at 50% 40%,rgba(212,160,65,0.03),transparent 70%),var(--bg)">
+  <div class="section-inner">
+    <div class="reveal"><div class="sec-tag">02 · Civilizations & Geography</div><div class="sec-title gradient-amber">三文明圏と地理</div><div class="sec-sub">Four spheres of civilization across a divided planet</div></div>
+
+    <div class="card surface mb-24 reveal reveal-delay-1">
+      <div class="card-head"><div class="card-name amber">照界 — Surface</div><div class="card-pop">総人口 <b>1,220万</b>（43%）</div></div>
+      <div class="zone-tags">
+        <div class="zone"><b>ネオ・ヘリオス</b>連邦首都 · 350万<small>軍事・行政・金融</small></div>
+        <div class="zone"><b>クリスタル連邦区</b>研究特区 · 150万<small>技術/金融の対抗極</small></div>
+        <div class="zone"><b>ラティス</b>港湾交易 · 60万<small>反戦カード · 多文化</small></div>
+        <div class="zone"><b>陽炉盆地</b>農業基盤 · 180万<small>食料＝最終抑止力</small></div>
+        <div class="zone"><b>照界辺境諸邦</b>鉱山/牧畜 · 400万<small>中央への不満 · 鬼族鉱夫</small></div>
+        <div class="zone"><b>沿岸都市群</b>海洋交易 · 80万<small>海民との窓口</small></div>
+      </div>
+      <div class="card-desc">「粒子がないから全て自力で造った」工業文明。熱光炉・逆極カーボン・HopeCast。<strong>夜の真の闇が技術発展のエンジン</strong>。民主制の顔をした産軍技術複合体。</div>
+    </div>
+
+    <div class="card moonbow mb-24 reveal reveal-delay-2">
+      <div class="card-head"><div class="card-name teal">月虹界 — Moonbow</div><div class="card-pop">総人口 <b>764万</b>（27%）</div></div>
+      <div class="zone-tags">
+        <div class="zone"><b>星巫宙</b>聖都 · 80万<small>祈歌と粒子精製の中枢</small></div>
+        <div class="zone"><b>アエルファ</b>獣人王国 · 50万<small>離脱カード · 最も種族多様</small></div>
+        <div class="zone"><b>リムランド</b>粒子薄地帯 · 280万<small>搾取される採掘圏</small></div>
+        <div class="zone"><b>月虹聖域回廊</b>巡礼路 · 350万<small>教団に忠実な信仰圏</small></div>
+        <div class="zone"><b>星臍洞地下</b>封印聖域 · 2千<small>ドレインハート封印地</small></div>
+        <div class="zone"><b>夜写文庫</b>学術自治 · 4万<small>知の拠点</small></div>
+      </div>
+      <div class="card-desc">「粒子があるから造る必要がなかった」共生文明。信仰と粒子が不可分。<strong>弱点: 逆極カーボンで粒子抑制されると文明が崩壊</strong>。封月庵 vs ファルマの路線対立。</div>
+    </div>
+
+    <div class="grid-2 mb-24">
+      <div class="card grey reveal reveal-delay-3">
+        <div class="card-head"><div class="card-name ember">灰境 — Graybelt</div><div class="card-pop">総人口 <b>100万</b>（4%）</div></div>
+        <div class="zone-tags">
+          <div class="zone"><b>ハイニジ</b>最大集住地 · 42万<small>義肢/配信/密輸</small></div>
+          <div class="zone"><b>チガイ</b>地下層 · 14万<small>闇市場 · 地脈合流点直上</small></div>
+          <div class="zone"><b>エンカイ・ドック</b>港湾 · 30万<small>照界との窓口</small></div>
+          <div class="zone"><b>アウターリム</b>旧戦場<small>怪異の巣窟</small></div>
+        </div>
+        <div class="card-desc">未完の国家。<strong>食料80%が外部輸入→封鎖で2-3週で飢餓</strong>。個人レベル最高・組織レベル最低。組織化は両文明の共通の恐怖。</div>
+      </div>
+      <div class="card ocean reveal reveal-delay-4">
+        <div class="card-head"><div class="card-name ocean">潮廻連合 — Ocean</div><div class="card-pop">総人口 <b>250万</b>（9%）</div></div>
+        <div class="zone-tags">
+          <div class="zone"><b>照海衆</b>80万<small>造船 · 照界経済に密接</small></div>
+          <div class="zone"><b>月虹海民</b>90万<small>粒子適応 · 深海漁</small></div>
+          <div class="zone"><b>渡り衆</b>80万<small>嵐走り · 密輸 · 情報</small></div>
+        </div>
+        <div class="card-desc"><strong>航路掌握が唯一の外交カード</strong>。閉鎖で両文明の経済が止まる。事実上の停戦条約の唯一の執行者。</div>
+      </div>
+    </div>
+
+    <div class="grid-3 reveal">
+      <div class="sea-card"><div class="sea-name" style="color:var(--ocean)">照海</div><div class="sea-desc">透明・粒子希薄・温暖<br>通常の海洋生物圏</div></div>
+      <div class="sea-card"><div class="sea-name" style="color:var(--teal)">月虹海</div><div class="sea-desc">粒子豊富・発光性<br>粒子適応種の棲む神秘の海</div></div>
+      <div class="sea-card"><div class="sea-name" style="color:var(--ember)">灰海</div><div class="sea-desc">混合・不安定・嵐多発<br>粒子含有海産物の宝庫</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SPECIES ==================== -->
+<section id="species" class="section" style="background:radial-gradient(ellipse 600px 400px at 60% 25%,rgba(126,143,212,0.04),transparent 70%),var(--bg)">
+  <div class="section-inner">
+    <div class="reveal"><div class="sec-tag">03 · Species, AP-I & Discrimination</div><div class="sec-title gradient-purple">種族・AP-I・差別構造</div><div class="sec-sub">Six species shaped by particle affinity and political prejudice</div></div>
+
+    <div class="grid-3 mb-32 reveal reveal-delay-1">
+      <div class="sp-card"><div class="sp-name" style="color:var(--amber)">人間</div><div class="sp-en">HUMAN · 照界起源 · AP-I 5-20</div>
+        <div class="data-row"><span>推定人口</span>約1,400万</div><div class="data-row"><span>主な居住地</span>照界全域（82%）</div>
+        <div class="sp-feat">粒子なしで完結する身体。照界の標準。数による支配。</div></div>
+      <div class="sp-card"><div class="sp-name" style="color:var(--teal)">精霊族</div><div class="sp-en">SPIRIT · 月虹界深部 · AP-I 70-95</div>
+        <div class="data-row"><span>推定人口</span>約200万</div><div class="data-row"><span>寿命</span>180-240年</div>
+        <div class="sp-feat">半透明の皮膚、発光器官。粒子を体内循環。宗教的上位。</div></div>
+      <div class="sp-card"><div class="sp-name" style="color:#66bb6a">獣人</div><div class="sp-en">BEASTFOLK · 月虹界内陸 · AP-I 40-65</div>
+        <div class="data-row"><span>推定人口</span>約350万</div><div class="data-row"><span>主な居住地</span>アエルファ / リムランド</div>
+        <div class="sp-feat">動物的特徴。月虹界最多だが精霊族に劣る二番手。</div></div>
+      <div class="sp-card"><div class="sp-name" style="color:var(--ember)">鬼族</div><div class="sp-en">ONI · 灰境起源 · AP-I 30-70（不安定）</div>
+        <div class="data-row"><span>推定人口</span>約120万</div><div class="data-row"><span>主な居住地</span>灰境 / 照界辺境</div>
+        <div class="sp-feat">角、硬質の皮膚、異常な膂力。照界では最も差別される。</div></div>
+      <div class="sp-card"><div class="sp-name" style="color:var(--purple)">半霊族</div><div class="sp-en">HALF-SPIRIT · 混血 · AP-I 25-55</div>
+        <div class="data-row"><span>推定人口</span>約180万</div><div class="data-row"><span>特性</span>個体差最大 · 外見は人間に近い</div>
+        <div class="sp-feat">照界では「パッシング」。灰境で最も増加中。</div></div>
+      <div class="sp-card"><div class="sp-name" style="color:var(--ocean)">合成人間</div><div class="sp-en">AVI · 照界製造 · AP-I 設計値30-50</div>
+        <div class="data-row"><span>推定数</span>約5万</div><div class="data-row"><span>法的地位</span>「特殊産業設備」</div>
+        <div class="sp-feat">人ではなく設備。感情抑制の調整が義務。月虹界では冒涜。</div></div>
+    </div>
+
+    <h3 class="sec-h3 reveal">AP-I（Astral Potential Index）分布</h3>
+    <div class="mb-32 reveal reveal-delay-1" id="api-bars">
+      <div class="api-bar-wrap"><div class="api-label">不感帯 0-15</div><div class="api-track"><div class="api-fill" data-w="45" style="width:0%;background:linear-gradient(90deg,rgba(212,160,65,0.3),rgba(212,160,65,0.12))">照界の一般市民</div></div><div class="api-pct">45%</div></div>
+      <div class="api-bar-wrap"><div class="api-label">低感帯 16-30</div><div class="api-track"><div class="api-fill" data-w="25" style="width:0%;background:linear-gradient(90deg,rgba(212,160,65,0.2),rgba(126,143,212,0.08))">粒子器具は使える</div></div><div class="api-pct">25%</div></div>
+      <div class="api-bar-wrap"><div class="api-label">中適応 31-50</div><div class="api-track"><div class="api-fill" data-w="18" style="width:0%;background:linear-gradient(90deg,rgba(126,143,212,0.2),rgba(78,184,214,0.12))">月虹界の一般市民</div></div><div class="api-pct">18%</div></div>
+      <div class="api-bar-wrap"><div class="api-label">高適応 51-70</div><div class="api-track"><div class="api-fill" data-w="9" style="width:0%;background:linear-gradient(90deg,rgba(78,184,214,0.3),rgba(78,184,214,0.12))">術士・騎士</div></div><div class="api-pct">9%</div></div>
+      <div class="api-bar-wrap"><div class="api-label">卓越 71-85</div><div class="api-track"><div class="api-fill" data-w="4" style="width:0%;background:linear-gradient(90deg,rgba(78,184,214,0.4),rgba(126,143,212,0.25))"></div></div><div class="api-pct">2.5%</div></div>
+      <div class="api-bar-wrap"><div class="api-label">臨界 86-100</div><div class="api-track"><div class="api-fill" data-w="2" style="width:0%;background:linear-gradient(90deg,rgba(196,80,80,0.4),rgba(126,143,212,0.25))"></div></div><div class="api-pct">0.5%</div></div>
+    </div>
+
+    <div class="grid-3 mb-32 reveal reveal-delay-2">
+      <div class="card surface"><div class="card-name amber" style="font-size:20px">照界の差別</div><div class="disc-axis">軸:「普通であること」が正義</div>
+        <div class="disc-row"><b>上位</b> 人間（不感帯）</div><div class="disc-row"><b>中位</b> 人間（低感帯）+ 合成人間</div>
+        <div class="disc-row"><b>下位</b> 獣人、鬼族（見える異質）</div><div class="disc-row"><b>最下位</b> 高AP-I個体（見えない脅威）</div><div class="disc-row"><b>不可視</b> 精霊族（存在が否認）</div></div>
+      <div class="card moonbow"><div class="card-name teal" style="font-size:20px">月虹界の差別</div><div class="disc-axis">軸:「響きの深さ」が価値</div>
+        <div class="disc-row"><b>上位</b> 精霊族（高AP-I）</div><div class="disc-row"><b>中位</b> 獣人 + 半霊族</div>
+        <div class="disc-row"><b>下位</b> 人間（低AP-I＝不完全）</div><div class="disc-row"><b>タブー</b> 合成人間（命の冒涜）</div></div>
+      <div class="card grey"><div class="card-name ember" style="font-size:20px">灰境の差別</div><div class="disc-axis">軸:「いつ来たか」が全て</div>
+        <div class="disc-row"><b>上位</b> 先住民（鬼族+獣人系）</div><div class="disc-row"><b>中位</b> 古い流入民（2-3世代）</div>
+        <div class="disc-row"><b>下位</b> 新しい流入民＝「よそ者」</div><div class="disc-row"><b>最下位</b> 債務拘束者（種族不問）</div></div>
+    </div>
+
+    <div class="callout teal reveal reveal-delay-3">
+      <div class="callout-title teal">AP-I制度の矛盾</div>
+      <div class="callout-text">照界のAP-I 71+の発生頻度は<strong>公表値の3倍</strong>。合成人間の製造は「照界自身が高AP-I個体を造っている」証拠。AP-I制度の本質は安全管理ではなく<strong>支配の制度</strong>。照界と月虹界は鏡像 —「自分の不完全さを他者の身体で埋めている」。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FACTIONS ==================== -->
+<section id="factions" class="section" style="background:radial-gradient(ellipse 600px 400px at 40% 35%,rgba(212,160,65,0.03),transparent 70%),var(--bg)">
+  <div class="section-inner">
+    <div class="reveal"><div class="sec-tag">04 · Factions, Military & Treaty</div><div class="sec-title gradient-amber">勢力・軍事・停戦条約</div><div class="sec-sub">Balance of power on the brink of collapse — HL206</div></div>
+
+    <h3 class="sec-h3 reveal">主要勢力</h3>
+    <div class="grid-2 mb-32 reveal reveal-delay-1">
+      <div class="faction sf"><div class="fac-name sf">イグナイト・シンジケート</div><div class="fac-desc"><b>照界 · 企業連合</b>。衛星採掘の強行、地脈管理権掌握。採掘と秩序を正義として語る</div></div>
+      <div class="faction sf"><div class="fac-name sf">ソルウェイブ・ダイナミクス</div><div class="fac-desc"><b>照界 · インフラ技術</b>。逆極カーボン標準化。安全と遮断を売る。合成人間の製造元</div></div>
+      <div class="faction sf"><div class="fac-name sf">AGS（治安複合体）</div><div class="fac-desc"><b>照界 · 治安</b>。AP-I制度の既成事実化。灰犬課を現場代行</div></div>
+      <div class="faction m"><div class="fac-name m">封月庵派（星巫女教団）</div><div class="fac-desc"><b>月虹界 · 保守</b>。地脈保全と再戦回避。搾取構造の正当化にも利用</div></div>
+      <div class="faction m"><div class="fac-name m">刃衆ファルマ（星巫女教団）</div><div class="fac-desc"><b>月虹界 · 強硬</b>。聖域防衛・抑止力強化。リムランドの鉱夫を兵士に</div></div>
+      <div class="faction m"><div class="fac-name m">ルミナイト聖槍会</div><div class="fac-desc"><b>月虹界 · 巡礼騎士団</b>。怪異討伐・巡礼路守護。実務力が最も高い</div></div>
+      <div class="faction g"><div class="fac-name g">鋳爪商会</div><div class="fac-desc"><b>灰境 · シンジケート</b>。義肢/保険/貸付。灰境の生命線にして首かせ</div></div>
+      <div class="faction o"><div class="fac-name o">潮廻連合</div><div class="fac-desc"><b>海洋 · 三系統連邦</b>。航路掌握。事実上の停戦条約唯一の執行者</div></div>
+      <div class="faction info"><div class="fac-name info">HopeCast編成局</div><div class="fac-desc"><b>照界 · 広報</b>。中枢編集層が世論操作。灰境の声は届かない</div></div>
+      <div class="faction info"><div class="fac-name info">オラクル・コーラス</div><div class="fac-desc"><b>月虹界 · 祈歌ネットワーク</b>。通信と調整のインフラ</div></div>
+    </div>
+
+    <h3 class="sec-h3 reveal">軍事バランス — HL206</h3>
+    <div class="grid-2 mb-32 reveal reveal-delay-1">
+      <div class="card surface">
+        <div class="card-name amber" style="font-size:22px;margin-bottom:14px">照界連邦軍</div>
+        <div class="data-row"><span>正規兵</span><b>約18万</b></div><div class="data-row"><span>粒子炉戦艦</span>12隻（港湾都市壊滅級）</div>
+        <div class="data-row"><span>装甲車両</span>約800両</div><div class="data-row"><span>偵察機</span>約120機</div>
+        <div class="data-row"><span>総動員時</span><b>約25万</b></div>
+        <div class="mil-foot"><strong>強み</strong>: 工業力・量産・補給力・逆極カーボン<br><strong>弱み</strong>: 粒子環境下の装備劣化・辺境民兵の忠誠</div>
+      </div>
+      <div class="card moonbow">
+        <div class="card-name teal" style="font-size:22px;margin-bottom:14px">月虹界盟約軍</div>
+        <div class="data-row"><span>粒子戦士</span><b>約8,000</b>（1人≒照界1小隊30人）</div><div class="data-row"><span>聖槍会騎士</span>約5,000</div>
+        <div class="data-row"><span>ファルマ戦闘員</span>約12,000（急増中・錬度低）</div><div class="data-row"><span>通常兵</span>約3万</div>
+        <div class="data-row"><span>総動員時</span><b>約5.5万</b>（実質15万人相当）</div>
+        <div class="mil-foot"><strong>強み</strong>: 個体戦力・地脈防衛・信仰に基づく士気<br><strong>弱み</strong>: 絶対数・海上戦力ゼロ・逆極カーボン</div>
+      </div>
+    </div>
+
+    <div class="card neutral mb-24 reveal reveal-delay-2">
+      <div class="card-name" style="color:var(--text-mid);font-size:20px;margin-bottom:16px">HL184停戦条約 — 執行機関は存在しない</div>
+      <div class="treaty-grid">
+        <div class="tr-cell tr-head">条項</div><div class="tr-cell tr-head">建前</div><div class="tr-cell tr-head">実態</div>
+        <div class="tr-cell tr-name">第1条 地脈保全</div><div class="tr-cell" style="color:var(--text-dim)">両陣営が監視</div><div class="tr-cell tr-fail">照界がデータ軍事利用。形骸化</div>
+        <div class="tr-cell tr-name">第2条 粒子輸出枠</div><div class="tr-cell" style="color:var(--text-dim)">年間輸出量を協議</div><div class="tr-cell tr-fail">照界が公定価格を一方的に設定</div>
+        <div class="tr-cell tr-name">第3条 灰境共同管理</div><div class="tr-cell" style="color:var(--text-dim)">共同管理委員会</div><div class="tr-cell tr-fail">形骸化。灰犬課で間接支配</div>
+        <div class="tr-cell tr-name">第4条 DH禁制</div><div class="tr-cell" style="color:var(--text-dim)">全面禁止</div><div class="tr-cell tr-fail">封印管理のみ。原理データ保持</div>
+        <div class="tr-cell tr-name">第5条 海路の中立</div><div class="tr-cell" style="color:var(--text-dim)">潮廻連合を承認</div><div class="tr-cell tr-ok">唯一機能。航路使用料で間接抑止</div>
+      </div>
+    </div>
+
+    <div class="callout red reveal reveal-delay-3">
+      <div class="callout-title red">HL206の危機の本質</div>
+      <div class="callout-text">HL181より均衡しているからこそ危険。「互角に近いからこそ先に動いた方が有利」→<strong>「予防戦争」の誘惑</strong>。条約は「守られている」のではなく「破り方がまだ全面戦争を誘発する水準に達していない」だけ。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== HISTORY ==================== -->
+<section id="history" class="section" style="background:radial-gradient(ellipse 500px 400px at 70% 50%,rgba(196,80,80,0.03),transparent 70%),var(--bg)">
+  <div class="section-inner">
+    <div class="reveal"><div class="sec-tag">05 · History & Endgame</div><div class="sec-title gradient-red">歴史年表と終局シナリオ</div><div class="sec-sub">From separation to the brink — HL 0 through HL 206</div></div>
+
+    <div class="grid-2 mb-40">
+      <div class="reveal reveal-delay-1">
+        <div class="timeline">
+          <div class="tl-item"><div class="tl-date">HL 0-180 · 文明分離期</div><div class="tl-text">照界と月虹界が別々に発展。HL~100にヘリオ語制定。</div></div>
+          <div class="tl-item crisis"><div class="tl-date crisis">HL ~160 · 合成人間開発</div><div class="tl-text"><b>「粒子を感じられる人間」を技術的に製造</b>。</div></div>
+          <div class="tl-item war"><div class="tl-date war">HL 181 · 地脈戦争勃発</div><div class="tl-text"><b>照界が宣戦布告なしに侵入</b>。灰境が主戦場に。</div></div>
+          <div class="tl-item war"><div class="tl-date war">HL 182 · 全面戦争</div><div class="tl-text">粒子戦士の20%が戦死。リムランドの裏切り。</div></div>
+          <div class="tl-item war"><div class="tl-date war">HL 183 · ドレインハート危機</div><div class="tl-text"><b>ファルマ前身が起動</b>。前任星巫女が犠牲で停止。</div></div>
+          <div class="tl-item peace"><div class="tl-date peace">HL 184 · 停戦条約</div><div class="tl-text">執行機関は設立されず。</div></div>
+          <div class="tl-item"><div class="tl-date">HL 184-195 · 再建期</div><div class="tl-text">鋳爪商会が善意と搾取を同時に積み上げて台頭。</div></div>
+          <div class="tl-item"><div class="tl-date">HL 195-205 · 冷戦均衡</div><div class="tl-text">安定はAP-I管理・逆極技術・情報統制と引き換え。</div></div>
+          <div class="tl-item now"><div class="tl-date now">HL 206 · 現在</div><div class="tl-text"><b>再戦の瀬戸際</b>。均衡しているからこそ先に動く誘惑。</div></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card danger mb-24 reveal reveal-delay-2">
+          <div class="card-name red" style="font-size:22px;margin-bottom:12px">ドレインハート — 月虹界の原罪</div>
+          <div class="card-desc" style="line-height:1.9"><strong>月虹界の者たちが、月虹界の身体を、月虹界の聖域で、兵器に変えた。</strong> 高AP-I個体の粒子臓器を体外培養し地脈に接続。逆位相粒子を注入し地脈に逆流。HL183に6時間で月虹界全域に波及。前任星巫女の犠牲で停止。<br><br>照界に責任を押し付けられない。これが月虹界の消えない原罪。</div>
+        </div>
+
+        <h3 class="sec-h3 reveal reveal-delay-3">終局シナリオ（HL206 圧力指標）</h3>
+        <div class="grid-5 reveal reveal-delay-4" style="grid-template-columns:repeat(5,1fr)">
+          <div class="end-card war"><div class="end-icon">⚔</div><div class="end-name">再戦</div><div class="end-score">62</div><div class="end-desc">相互エスカレート<br>灰境が再び焦土</div></div>
+          <div class="end-card ctrl"><div class="end-icon">☀</div><div class="end-name">照界統制</div><div class="end-score">54</div><div class="end-desc">静かな征服<br>安全だが不自由</div></div>
+          <div class="end-card grey"><div class="end-icon">◈</div><div class="end-name">灰境独立</div><div class="end-score">45</div><div class="end-desc">統一と自治宣言<br>内部権力闘争</div></div>
+          <div class="end-card star"><div class="end-icon">✦</div><div class="end-name">星落とし</div><div class="end-score">38</div><div class="end-desc">地脈連鎖崩壊<br>最悪の結末</div></div>
+          <div class="end-card peace"><div class="end-icon">∿</div><div class="end-name">共生調律</div><div class="end-score">21</div><div class="end-desc">全ゾーン対等<br>最も困難</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CULTURE ==================== -->
+<section id="culture" class="section" style="background:radial-gradient(ellipse 600px 400px at 30% 40%,rgba(78,184,214,0.03),transparent 70%),radial-gradient(ellipse 400px 300px at 70% 70%,rgba(212,160,65,0.02),transparent),var(--bg)">
+  <div class="section-inner">
+    <div class="reveal"><div class="sec-tag">06 · Culture, Daily Life & Design Philosophy</div><div class="sec-title gradient-mixed">文化・日常・設計思想</div><div class="sec-sub">What makes the world feel lived-in</div></div>
+
+    <h3 class="sec-h3 reveal">信仰と精神的支柱</h3>
+    <div class="grid-3 mb-32 reveal reveal-delay-1">
+      <div class="card moonbow">
+        <div class="card-name teal" style="font-size:18px">月虹界 ―「空にいるものへの祈り」</div>
+        <div class="card-desc" style="margin-top:10px">信仰は教義ではなく<strong>環境から始まった</strong>。粒子はアストラルムから降り注ぎ身体を満たす。三層構造: 響き → 調律 → 沈黙。</div>
+        <div style="font-size:14px;color:var(--text-ghost);margin-top:12px;font-style:italic;border-left:2px solid rgba(255,255,255,0.05);padding-left:10px">「返事がないからこそ、祈りに意味がある」</div>
+      </div>
+      <div class="card surface">
+        <div class="card-name amber" style="font-size:18px">照界 ―「持続の倫理」</div>
+        <div class="card-desc" style="margin-top:10px">神学はないが<strong>「都市を止めないことが善」</strong>という市民宗教。冷却塔を守る技師が尊敬される。秩序停止の先に死があると知っているから秩序を信じる。</div>
+        <div style="font-size:14px;color:var(--text-ghost);margin-top:12px;font-style:italic;border-left:2px solid rgba(255,255,255,0.05);padding-left:10px">「正直ちょっと羨ましい。照界には祈る先がない」</div>
+      </div>
+      <div class="card grey">
+        <div class="card-name ember" style="font-size:18px">灰境 ― 信仰の真空</div>
+        <div class="card-desc" style="margin-top:10px">統一的信仰はない。先住民は揺り暦の信仰。流入民は信仰の真空。「灰境人」アイデンティティ自体がやがて信仰になる可能性。</div>
+        <div style="font-size:14px;color:var(--text-ghost);margin-top:12px;font-style:italic;border-left:2px solid rgba(255,255,255,0.05);padding-left:10px">「俺は鬼族でも人間でもなく、ここの人間だ」</div>
+      </div>
+    </div>
+
+    <h3 class="sec-h3 reveal">言語体系</h3>
+    <div class="grid-4 mb-32 reveal reveal-delay-1">
+      <div class="sp-card"><div class="sp-name" style="color:var(--amber);font-size:20px">ヘリオ語</div><div class="sp-feat"><b>照界の公用語</b>。辺境は鬼族古語混じりの訛り。クリスタルは技術用語過多で民衆と断絶。</div></div>
+      <div class="sp-card"><div class="sp-name" style="color:var(--teal);font-size:20px">響語</div><div class="sp-feat"><b>月虹界</b>。音声+粒子パルスの二重構造。低AP-Iには「空気が読めない」状態。完全翻訳は<b>原理的に不可能</b>。</div></div>
+      <div class="sp-card"><div class="sp-name" style="color:var(--ember);font-size:20px">灰境語</div><div class="sp-feat"><b>クレオール</b>。敬語なし。暗号化しやすい。仲間/よそ者の判定装置。</div></div>
+      <div class="sp-card"><div class="sp-name" style="color:var(--ocean);font-size:20px">海語</div><div class="sp-feat"><b>潮廻連合</b>。三系統で微妙に異なる。大渦環議会ではヘリオ語使用。</div></div>
+    </div>
+
+    <h3 class="sec-h3 reveal">日常の断片</h3>
+    <div class="grid-2 mb-32 reveal reveal-delay-1">
+      <div class="vig sf"><div class="v-who sf">照界 · ネオ・ヘリオスの部品工場員</div><div class="v-text">遮熱シャッターの隙間から日差し。精密労働。退勤後に桃を買い、家族3人の夕食。日没はシャッターを閉めると30秒の闇。子どもが手を握る。HopeCastのドラマが流れている。灰境の話は出てこない。</div></div>
+      <div class="vig m"><div class="v-who m">月虹界 · リムランドの私塾教師</div><div class="v-text">粒子が薄い朝。机は木箱、椅子は石。子ども8人に字を教える。「僕は響きが浅いから字しかできない」→「字ができるのはすごいことだよ」。計算「粒子10掘って教団に6納める。残りは？」—これが教育。</div></div>
+      <div class="vig g"><div class="v-who g">灰境 · 灰虹路地の露店主</div><div class="v-text">粒子変動で光が日替わり。中古日用品と灰海の乾物を売る。「灰犬課来ないかな」「来ないといいね」。今日の売上4.2ヘリオ。娘が「母ちゃんは字書ける？」「書くのは娘のほうが上手い」。それだけで今日はいい日。</div></div>
+      <div class="vig o"><div class="v-who o">海洋 · 渡り衆の若い船団長</div><div class="v-text">夜明け前の甲板。灰海の波頭が青白く光る。老水夫が潮の歌を教える。月虹海に入ると海が光り始める。リム帯の空には照界の星空とアストラルムの両方が見える。海の上だけの特権。</div></div>
+    </div>
+
+    <h3 class="sec-h3 reveal">設計思想</h3>
+    <div class="grid-3 mb-32 reveal reveal-delay-1">
+      <div class="princ"><div class="princ-num">01</div><div class="princ-text">世界は二項対立に見えるが、実態はグラデーション。すべての対立に例外と程度がある。</div></div>
+      <div class="princ"><div class="princ-num">02</div><div class="princ-text">灰境が統一すれば世界が変わる。分断すれば停滞する。コアデザインテーゼ。</div></div>
+      <div class="princ"><div class="princ-num">03</div><div class="princ-text">悲劇はプリロードしない。世界が機能している結果として現れる。</div></div>
+      <div class="princ"><div class="princ-num">04</div><div class="princ-text">「普通の幸せ」が必須。暗いシナリオでも小さな喜び、日常の継続。</div></div>
+      <div class="princ"><div class="princ-num">05</div><div class="princ-text">照界と月虹界は鏡像。合成人間がその最も残酷な証拠。</div></div>
+      <div class="princ"><div class="princ-num">06</div><div class="princ-text">例外と揺れが物語を生む。完全な二項対立はドラマを殺す。</div></div>
+    </div>
+  </div>
+</section>
+
+<footer id="footer">PLANET INIR · WORLD SETTING CODEX · HL206 W14</footer>
+
+<script>
+// Scroll progress bar
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+// scrollTo helper
+function scrollTo(sel) {
+  document.querySelector(sel).scrollIntoView({ behavior: 'smooth' });
+}
+
+// Intersection Observer for reveals
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// AP-I bar animation
+const apiObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.api-fill').forEach(bar => {
+        bar.style.width = bar.dataset.w + '%';
+      });
+    }
+  });
+}, { threshold: 0.3 });
+const apiBars = document.getElementById('api-bars');
+if (apiBars) apiObs.observe(apiBars);
+
+// Active nav dot
+const sections = ['#hero','#celestial','#civilizations','#species','#factions','#history','#culture'];
+const dots = document.querySelectorAll('.nav-dot');
+const secObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const idx = sections.indexOf('#' + e.target.id);
+      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    }
+  });
+}, { threshold: 0.3 });
+sections.forEach(s => {
+  const el = document.querySelector(s);
+  if (el) secObs.observe(el);
+});
+</script>
+</body>
+</html>
