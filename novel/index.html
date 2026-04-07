@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta property="og:title" content="灰の海から届く声 — 惑星イニル">
+<meta property="og:description" content="消えた情報屋を追って、彼女は検査の街から灰境へ入る。">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>灰の海から届く声 — 惑星イニル</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@400;600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📖</text></svg>">
+<style>
+:root {
+  --bg: #06070c;
+  --bg-card: #0c0e18;
+  --bg-surface: #101320;
+  --border: rgba(255,255,255,0.05);
+  --amber: #e0a535;
+  --teal: #4eb8d6;
+  --purple: #7e8fd4;
+  --ember: #9a8e7c;
+  --text: #e0dcd4;
+  --text-mid: rgba(255,255,255,0.65);
+  --text-dim: rgba(255,255,255,0.45);
+  --text-ghost: rgba(255,255,255,0.22);
+  --serif: 'Noto Serif JP', 'Cormorant Garamond', serif;
+  --sans: 'Noto Sans JP', sans-serif;
+  --display: 'Cormorant Garamond', 'Noto Serif JP', serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; background: var(--bg); }
+body {
+  font-family: var(--sans);
+  color: var(--text);
+  background: var(--bg);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px; }
+
+/* PROGRESS BAR */
+#progress {
+  position: fixed; top: 0; left: 0; height: 2px; z-index: 1000;
+  background: linear-gradient(90deg, var(--amber), var(--teal));
+  width: 0%; transition: width 0.15s;
+}
+
+/* HEADER */
+.site-header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+  background: rgba(6,7,12,0.92); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.site-header h1 {
+  font-family: var(--serif); font-size: 16px; font-weight: 400;
+  color: var(--text-mid); letter-spacing: 0.04em;
+}
+.site-header a {
+  color: var(--text-dim); text-decoration: none; font-size: 13px;
+  transition: color 0.2s;
+}
+.site-header a:hover { color: var(--teal); }
+
+/* HERO */
+.hero {
+  min-height: 70vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 120px 24px 60px;
+  position: relative;
+}
+.hero::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 120px;
+  background: linear-gradient(transparent, var(--bg));
+}
+.hero .tag {
+  font-family: var(--sans); font-size: 11px; font-weight: 500;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 24px;
+  border: 1px solid rgba(78,184,214,0.2); padding: 6px 16px; border-radius: 20px;
+}
+.hero h2 {
+  font-family: var(--display); font-size: clamp(32px, 6vw, 56px);
+  font-weight: 600; color: var(--text); line-height: 1.3;
+  margin-bottom: 16px; letter-spacing: 0.02em;
+}
+.hero .sub {
+  font-family: var(--serif); font-size: clamp(14px, 2vw, 18px);
+  color: var(--text-mid); line-height: 1.8; max-width: 520px;
+}
+.hero .catch {
+  margin-top: 32px; font-family: var(--serif);
+  font-size: 15px; color: var(--amber); font-style: italic;
+  letter-spacing: 0.03em;
+}
+.hero .start-btn {
+  margin-top: 40px; display: inline-block;
+  padding: 14px 40px; border: 1px solid var(--amber);
+  color: var(--amber); font-family: var(--sans); font-size: 14px;
+  text-decoration: none; border-radius: 4px; cursor: pointer;
+  transition: all 0.3s; letter-spacing: 0.08em;
+}
+.hero .start-btn:hover {
+  background: var(--amber); color: var(--bg);
+}
+
+/* TOC */
+.toc {
+  max-width: 640px; margin: 0 auto; padding: 40px 24px 80px;
+}
+.toc h3 {
+  font-family: var(--serif); font-size: 14px; color: var(--text-dim);
+  letter-spacing: 0.15em; margin-bottom: 24px;
+  text-transform: uppercase;
+}
+.toc-item {
+  display: flex; align-items: baseline; gap: 16px;
+  padding: 14px 0; border-bottom: 1px solid var(--border);
+  cursor: pointer; transition: all 0.2s;
+}
+.toc-item:hover { padding-left: 8px; }
+.toc-item .num {
+  font-family: var(--display); font-size: 13px;
+  color: var(--text-ghost); min-width: 32px;
+}
+.toc-item .ttl {
+  font-family: var(--serif); font-size: 16px;
+  color: var(--text-mid); transition: color 0.2s;
+}
+.toc-item:hover .ttl { color: var(--text); }
+.toc-item.read .ttl { color: var(--text-dim); }
+.toc-item.read .num::after {
+  content: ' ✓'; color: var(--teal); font-size: 11px;
+}
+
+/* READER */
+.reader {
+  display: none; max-width: 680px; margin: 0 auto;
+  padding: 100px 24px 120px; min-height: 100vh;
+}
+.reader.active { display: block; }
+
+.reader .chapter-title {
+  font-family: var(--display); font-size: clamp(24px, 4vw, 36px);
+  font-weight: 600; color: var(--text); text-align: center;
+  margin-bottom: 48px; letter-spacing: 0.02em;
+  padding-bottom: 24px; border-bottom: 1px solid var(--border);
+}
+
+.reader .body {
+  font-family: var(--serif); font-size: clamp(15px, 2.2vw, 17px);
+  line-height: 2.0; color: var(--text);
+  letter-spacing: 0.02em;
+}
+.reader .body p {
+  margin-bottom: 0.4em;
+}
+.reader .body p.empty {
+  height: 1.2em;
+}
+.reader .body p.divider {
+  text-align: center; color: var(--text-ghost);
+  margin: 2em 0; font-size: 14px; letter-spacing: 0.5em;
+}
+
+/* NAV BUTTONS */
+.chapter-nav {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 80px; padding-top: 32px;
+  border-top: 1px solid var(--border);
+  gap: 16px;
+}
+.chapter-nav button {
+  font-family: var(--sans); font-size: 13px;
+  color: var(--text-mid); background: var(--bg-card);
+  border: 1px solid var(--border); padding: 12px 24px;
+  border-radius: 4px; cursor: pointer; transition: all 0.2s;
+  max-width: 45%;
+}
+.chapter-nav button:hover {
+  border-color: var(--teal); color: var(--teal);
+}
+.chapter-nav button:disabled {
+  opacity: 0.3; cursor: default;
+}
+.chapter-nav button:disabled:hover {
+  border-color: var(--border); color: var(--text-mid);
+}
+.chapter-nav .toc-btn {
+  font-size: 12px; color: var(--text-dim);
+  background: transparent; border: none; cursor: pointer;
+  padding: 8px 12px;
+}
+.chapter-nav .toc-btn:hover { color: var(--teal); }
+
+/* FOOTER */
+.site-footer {
+  text-align: center; padding: 40px 24px;
+  font-size: 12px; color: var(--text-ghost);
+  border-top: 1px solid var(--border);
+}
+.site-footer a { color: var(--text-dim); text-decoration: none; }
+.site-footer a:hover { color: var(--teal); }
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .site-header { padding: 10px 16px; }
+  .site-header h1 { font-size: 14px; }
+  .hero { min-height: 60vh; padding: 100px 20px 40px; }
+  .toc { padding: 24px 20px 60px; }
+  .reader { padding: 80px 20px 100px; }
+  .chapter-nav button { padding: 10px 16px; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<header class="site-header">
+  <h1>灰の海から届く声</h1>
+  <a href="../">← World Codex</a>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="hero-section">
+  <div class="tag">Worldline 01</div>
+  <h2>灰の海から届く声</h2>
+  <p class="sub">
+    情報統制が行き渡った街で、調査者の女は三日間途絶えた回線を追っていた。<br>
+    消えた情報屋が最後に伝えたのは、検査基準の引き下げと、<br>
+    名簿が先に作られているという事実だった。
+  </p>
+  <p class="catch">消えた情報屋を追って、彼女は検査の街から灰境へ入る。</p>
+  <a class="start-btn" onclick="showToc()">目次を開く</a>
+</section>
+
+<!-- TABLE OF CONTENTS -->
+<section class="toc" id="toc-section" style="display:none">
+  <h3>Contents</h3>
+  <div id="toc-list"></div>
+</section>
+
+<!-- READER -->
+<section class="reader" id="reader-section">
+  <h2 class="chapter-title" id="chapter-title"></h2>
+  <div class="body" id="chapter-body"></div>
+  <div class="chapter-nav">
+    <button id="prev-btn" onclick="navChapter(-1)">← 前話</button>
+    <button class="toc-btn" onclick="showToc()">目次</button>
+    <button id="next-btn" onclick="navChapter(1)">次話 →</button>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <p>惑星イニル — <a href="../">World Codex</a> / Worldline 01: 灰の海から届く声</p>
+</footer>
+
+<script>
+let chapters = [];
+let currentChapter = -1;
+
+async function init() {
+  const res = await fetch('chapters.json');
+  chapters = await res.json();
+  const saved = localStorage.getItem('inil-novel-chapter');
+  if (saved !== null) {
+    showToc();
+  }
+}
+
+function showToc() {
+  document.getElementById('hero-section').style.display = 'none';
+  document.getElementById('toc-section').style.display = 'block';
+  document.getElementById('reader-section').classList.remove('active');
+
+  const list = document.getElementById('toc-list');
+  list.innerHTML = '';
+  const readChapters = JSON.parse(localStorage.getItem('inil-novel-read') || '[]');
+
+  chapters.forEach((ch, i) => {
+    const item = document.createElement('div');
+    item.className = 'toc-item' + (readChapters.includes(i) ? ' read' : '');
+    const isEpilogue = ch.title.includes('エピローグ');
+    item.innerHTML = `
+      <span class="num">${isEpilogue ? 'Ep' : String(i + 1).padStart(2, '0')}</span>
+      <span class="ttl">${ch.title}</span>
+    `;
+    item.onclick = () => loadChapter(i);
+    list.appendChild(item);
+  });
+
+  window.scrollTo(0, 0);
+}
+
+function loadChapter(idx) {
+  if (idx < 0 || idx >= chapters.length) return;
+  currentChapter = idx;
+
+  document.getElementById('hero-section').style.display = 'none';
+  document.getElementById('toc-section').style.display = 'none';
+  document.getElementById('reader-section').classList.add('active');
+
+  const ch = chapters[idx];
+  document.getElementById('chapter-title').textContent = ch.title;
+
+  const body = document.getElementById('chapter-body');
+  body.innerHTML = '';
+
+  const lines = ch.body.split('\n');
+  lines.forEach(line => {
+    const p = document.createElement('p');
+    const trimmed = line.trim();
+    if (trimmed === '') {
+      p.className = 'empty';
+    } else if (trimmed === '*') {
+      p.className = 'divider';
+      p.textContent = '＊';
+    } else {
+      p.textContent = trimmed;
+    }
+    body.appendChild(p);
+  });
+
+  document.getElementById('prev-btn').disabled = idx === 0;
+  document.getElementById('next-btn').disabled = idx === chapters.length - 1;
+  document.getElementById('next-btn').textContent =
+    idx === chapters.length - 1 ? '— 完 —' : '次話 →';
+
+  localStorage.setItem('inil-novel-chapter', idx);
+  markRead(idx);
+  window.scrollTo(0, 0);
+}
+
+function navChapter(delta) {
+  loadChapter(currentChapter + delta);
+}
+
+function markRead(idx) {
+  const read = JSON.parse(localStorage.getItem('inil-novel-read') || '[]');
+  if (!read.includes(idx)) {
+    read.push(idx);
+    localStorage.setItem('inil-novel-read', JSON.stringify(read));
+  }
+}
+
+// Progress bar
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+init();
+</script>
+</body>
+</html>
