@@ -25,7 +25,7 @@
 .wl-card .wl-num{font-family:var(--sans);font-size:10px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;color:var(--text-dim)}
 .wl-card .wl-title{font-family:var(--serif);font-size:17px;color:var(--text);margin-bottom:8px}
 .wl-card .wl-desc{font-size:12px;color:var(--text-mid);line-height:1.6}
-.wl-card.cat-main .wl-num{color:var(--teal)}.wl-card.cat-gaiden .wl-num{color:var(--purple)}.wl-card.cat-nichijou .wl-num{color:var(--green)}.wl-card.cat-seihon .wl-num{color:var(--amber)}.wl-card.cat-lattice .wl-num{color:var(--rose)}
+.wl-card.cat-main .wl-num{color:var(--teal)}.wl-card.cat-gaiden .wl-num{color:var(--purple)}.wl-card.cat-nichijou .wl-num{color:var(--green)}.wl-card.cat-seihon .wl-num{color:var(--amber)}.wl-card.cat-lattice .wl-num{color:var(--rose)}.wl-card.cat-fukabori .wl-num{color:var(--ember)}
 .toc{max-width:640px;margin:0 auto;padding:40px 24px 80px;display:none}
 .toc h3{font-family:var(--serif);font-size:14px;color:var(--text-dim);letter-spacing:.15em;margin-bottom:8px}
 .toc .toc-subtitle{font-family:var(--serif);font-size:18px;color:var(--text-mid);margin-bottom:24px}
@@ -64,6 +64,8 @@
   <div class="wl-cards" id="cards-seihon"></div>
   <div class="section-label">ラティス</div>
   <div class="wl-cards" id="cards-lattice"></div>
+  <div class="section-label">深掘り短編</div>
+  <div class="wl-cards" id="cards-fukabori"></div>
 </section>
 <section class="toc" id="toc-section">
   <button class="back-btn" onclick="showHome()">&#8592; 作品一覧に戻る</button>
@@ -96,10 +98,11 @@ const NOVELS={
   seihon_anshin:{file:'chapters_anshin.json',label:'正本',title:'安心の設計者たち',cat:'seihon',desc:'嘘をつかずに安心を供給する技術。アルダーとルーセントの25年。'},
   seihon_nami:{file:'chapters_nami.json',label:'正本',title:'波が決める',cat:'seihon',desc:'海は誰のものでもない。のに、誰かのものになっていく。ウネリの30年。'},
   lattice:{file:'chapters_lattice.json',label:'ラティス外伝',title:'ラティスですれ違わない日',cat:'lattice',desc:'港で偶然すれ違うだけの五つの話。苦い茶、魚串、薬草、ぬるいスープ、祭りの飴。'},
+  fukabori:{file:'chapters_fukabori.json',label:'深掘り短編',title:'イニル深掘り短編',cat:'fukabori',desc:'義肢工房の手順、四つの文明の食卓、検査日の列。世界を体験する三編。'},
 };
 let chapters=[],currentChapter=-1,currentWL='';
 function showHome(){document.getElementById('hero-section').style.display='flex';document.getElementById('toc-section').style.display='none';document.getElementById('reader-section').classList.remove('active');document.querySelector('.site-header h1').textContent='惑星イニル — Novels';window.scrollTo(0,0);}
-function buildCards(){const groups={main:'cards-main',gaiden:'cards-gaiden',nichijou:'cards-nichijou',seihon:'cards-seihon',lattice:'cards-lattice'};for(const[key,novel] of Object.entries(NOVELS)){const c=document.getElementById(groups[novel.cat]);if(!c)continue;const d=document.createElement('div');d.className='wl-card cat-'+novel.cat;d.onclick=()=>selectWL(key);d.innerHTML='<div class="wl-num">'+novel.label+'</div><div class="wl-title">'+novel.title+'</div><div class="wl-desc">'+novel.desc+'</div>';c.appendChild(d);}}
+function buildCards(){const groups={main:'cards-main',gaiden:'cards-gaiden',nichijou:'cards-nichijou',seihon:'cards-seihon',lattice:'cards-lattice',fukabori:'cards-fukabori'};for(const[key,novel] of Object.entries(NOVELS)){const c=document.getElementById(groups[novel.cat]);if(!c)continue;const d=document.createElement('div');d.className='wl-card cat-'+novel.cat;d.onclick=()=>selectWL(key);d.innerHTML='<div class="wl-num">'+novel.label+'</div><div class="wl-title">'+novel.title+'</div><div class="wl-desc">'+novel.desc+'</div>';c.appendChild(d);}}
 async function selectWL(wl){currentWL=wl;const novel=NOVELS[wl];const res=await fetch(novel.file);chapters=await res.json();document.querySelector('.site-header h1').textContent=novel.title;showToc();}
 function showToc(){const novel=NOVELS[currentWL];document.getElementById('hero-section').style.display='none';document.getElementById('toc-section').style.display='block';document.getElementById('reader-section').classList.remove('active');document.getElementById('toc-wl-label').textContent=novel.label;document.getElementById('toc-title').textContent=novel.title;const list=document.getElementById('toc-list');list.innerHTML='';const read=JSON.parse(localStorage.getItem(currentWL+'-read')||'[]');chapters.forEach((ch,i)=>{const item=document.createElement('div');item.className='toc-item'+(read.includes(i)?' read':'');const isEp=ch.title.includes('エピローグ');const isInter=ch.title.includes('間章');let label=isEp?'Ep':isInter?'間':String(i+1).padStart(2,'0');item.innerHTML='<span class="num">'+label+'</span><span class="ttl">'+ch.title+'</span>';item.onclick=()=>loadChapter(i);list.appendChild(item);});window.scrollTo(0,0);}
 function loadChapter(idx){if(idx<0||idx>=chapters.length)return;currentChapter=idx;document.getElementById('hero-section').style.display='none';document.getElementById('toc-section').style.display='none';document.getElementById('reader-section').classList.add('active');const ch=chapters[idx];document.getElementById('chapter-title').textContent=ch.title;const body=document.getElementById('chapter-body');body.innerHTML='';ch.body.split('\n').forEach(line=>{const p=document.createElement('p');const t=line.trim();if(t==='')p.className='empty';else if(t==='*'){p.className='divider';p.textContent='\uFF0A';}else p.textContent=t;body.appendChild(p);});document.getElementById('prev-btn').disabled=idx===0;document.getElementById('next-btn').disabled=idx===chapters.length-1;document.getElementById('next-btn').textContent=idx===chapters.length-1?'\u2014 完 \u2014':'\u6B21\u8A71 \u2192';markRead(idx);window.scrollTo(0,0);}
