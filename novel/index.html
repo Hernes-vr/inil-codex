@@ -26,7 +26,14 @@
 .wl-card .wl-num{font-family:var(--sans);font-size:10px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;color:var(--text-dim)}
 .wl-card .wl-title{font-family:var(--serif);font-size:17px;color:var(--text);margin-bottom:8px}
 .wl-card .wl-desc{font-size:12px;color:var(--text-mid);line-height:1.6}
-.wl-card.cat-start .wl-num{color:var(--teal)}.wl-card.cat-after .wl-num{color:var(--purple)}.wl-card.cat-any .wl-num{color:var(--green)}.wl-card.cat-deep .wl-num{color:var(--ember)}
+.wl-card.cat-start .wl-num{color:var(--teal)}.wl-card.cat-after .wl-num{color:var(--purple)}.wl-card.cat-any .wl-num{color:var(--green)}.wl-card.cat-deep .wl-num{color:var(--amber)}
+.bundle-cards{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;max-width:900px;margin:0 auto;padding:0 24px 24px}
+.bundle-card{background:linear-gradient(180deg,rgba(14,18,30,0.98),rgba(10,12,20,0.98));border:1px solid var(--border);border-radius:10px;padding:24px 22px;width:280px;text-align:left;cursor:pointer;transition:all .3s}
+.bundle-card:hover{border-color:var(--teal);transform:translateY(-2px)}
+.bundle-card .bundle-num{font-family:var(--sans);font-size:10px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;color:var(--amber)}
+.bundle-card .bundle-title{font-family:var(--serif);font-size:18px;color:var(--text);margin-bottom:8px}
+.bundle-card .bundle-desc{font-size:12px;color:var(--text-mid);line-height:1.7;margin-bottom:12px}
+.bundle-card .bundle-works{font-size:11px;color:var(--text-dim);line-height:1.7}
 .toc{max-width:640px;margin:0 auto;padding:40px 24px 80px;display:none}
 .toc h3{font-family:var(--serif);font-size:14px;color:var(--text-dim);letter-spacing:.15em;margin-bottom:8px}
 .toc .toc-subtitle{font-family:var(--serif);font-size:18px;color:var(--text-mid);margin-bottom:24px}
@@ -55,6 +62,9 @@
 <section class="hero" id="hero-section">
   <div class="universe-tag">Planet Inir — All Works</div>
   <h2>惑星イニルの物語</h2>
+  <div class="section-label" style="color:var(--amber)">束で読む</div>
+  <div class="section-hint">まずはまとまりで入りたい人向け。入口作品からそのまま流せます。</div>
+  <div class="bundle-cards" id="cards-bundles"></div>
   <div class="section-label" style="color:var(--teal)">&#9312; はじめに読む</div>
   <div class="section-hint">どちらか1つから。灰の海は情報戦、祈りは辺境の教室。</div>
   <div class="wl-cards" id="cards-start"></div>
@@ -64,7 +74,7 @@
   <div class="section-label" style="color:var(--green)">&#9314; どこから読んでもいい</div>
   <div class="section-hint">日常、港、世界の原作層。本編を知らなくても入れる。</div>
   <div class="wl-cards" id="cards-any"></div>
-  <div class="section-label" style="color:var(--ember)">&#9315; もっと深く</div>
+  <div class="section-label" style="color:var(--amber)">&#9315; もっと深く</div>
   <div class="section-hint">世界の手触り、制度の裏側、帳簿の外。</div>
   <div class="wl-cards" id="cards-deep"></div>
 </section>
@@ -92,7 +102,7 @@ const NOVELS={
   gaiden_naginoha:{file:'chapters_naginoha.json',label:'灰の海 外伝',title:'凪の刀',cat:'after',desc:'山を降りた鬼族の少女が、刀を手に灰境を駆ける六日間。'},
   gaiden_haikyo:{file:'chapters_haikyo.json',label:'灰の海 外伝',title:'灰境の日々',cat:'after',desc:'配給日の市場、廃材楽器の夜、灰海の焚き火、猫を追う午後。'},
   gaiden_sannin:{file:'chapters_sannin.json',label:'灰の海 外伝',title:'三人の話',cat:'after'},
-  gekkou:{file:'chapters_gekkou.json',label:'月虹遭難編',title:'月虹遭難編',cat:'after',desc:'怪異に追われ、辺境の家に泊まり、四人で湯に入る。警戒をどこまで解くか。',desc:'損得の外にある関係。すずね、メフィー、凪羽の距離が変わる四つの夜。'},
+  gekkou:{file:'chapters_gekkou.json',label:'月虹遭難編',title:'月虹遭難編',cat:'after',desc:'怪異に追われ、辺境の家に泊まり、四人で湯に入る。損得の外にある関係が、湯気の中で少しだけ近くなる。'},
   nichijou_lisl:{file:'chapters_lisl.json',label:'照界の日常',title:'リィズルとアルス',cat:'any',desc:'冷却服を選んで、整備庫で昼寝して、補習を受けて、魚弁当を交換する。'},
   nichijou_myalka:{file:'chapters_myalka.json',label:'照界の日常',title:'ミャルカは今日も笑う',cat:'any',desc:'衣装合わせ、握手会、楽屋の桃。笑顔の裏側にある日常。'},
   seihon_choubo:{file:'chapters_choubo.json',label:'正本',title:'帳簿は合っている',cat:'any',desc:'義肢を渡す手が債務の鎖も編む。ナグロ親方の25年。'},
@@ -112,9 +122,17 @@ fukabori:{file:'chapters_fukabori.json',label:'深掘り短編',title:'イニル
   itsume:{file:'chapters_itsume.json',label:'シリーズ',title:'鋳爪商会帳簿外',cat:'deep',desc:'帳簿に載らない経済。ドーラの七十二年と、足をぶらぶらさせる椅子。'},
   kenmon:{file:'chapters_kenmon.json',label:'シリーズ',title:'検問灯の下で',cat:'deep',desc:'取り締まる側から見た灰境。異常なし、と書く夜。'},
 };
+const BUNDLES={
+  gekkou_pack:{entry:'gekkou',label:'月虹パック',title:'薄い月、近い湯気',desc:'怪異に道を奪われた四人が、月虹界の辺境で一晩だけ同じ湯気を分け合う。月虹遭難編と番外2本の入口。',works:'月虹遭難編 / メフィーの髪が乾かない / エルノアは友達ノリがわからない'},
+  lattice_pack:{entry:'lattice',label:'ラティス短編集',title:'港の茶と、知らない顔',desc:'港で偶然すれ違う話と、通関・屋台の乾いた実務をまとめて読む束。軽さと制度が同じ港に並ぶ。',works:'ラティスですれ違わない日 / 港湾通関日誌 / ラティス屋台は全部ちょっとおかしい'},
+  haikyo_pack:{entry:'gaiden_haikyo',label:'灰境群像集',title:'灰境で生きる',desc:'配給、鍋、義肢工房、地下通路。足りないものを持ち寄って一日を回す灰境群像の入口。',works:'灰境の日々 / 三人の話 / 義肢工房録 / チガイ下層見聞'},
+  seikai_pack:{entry:'seihon_anshin',label:'照界圧力集',title:'安心の裏側',desc:'検査、放送、契約、笑顔。整っているからこそ怖い照界を、制度と生活の両側から読む束。',works:'安心の設計者たち / AP-I検査日 / 遮熱通路の女 / ミャルカは今日も笑う'},
+  moon_pack:{entry:'seihon_utaeru',label:'月虹静圧集',title:'薄い空気、静かな圧',desc:'観測、教室、薄域、手紙、遭難。月虹界の静かな圧を長編と短編でまとめて読む後出し向けの束。',works:'まだ歌える / 粒子薄域紀行 / 祈りの届かない場所 / 月虹遭難編'},
+};
 let chapters=[],currentChapter=-1,currentWL='';
 function showHome(){document.getElementById('hero-section').style.display='flex';document.getElementById('toc-section').style.display='none';document.getElementById('reader-section').classList.remove('active');document.querySelector('.site-header h1').textContent='惑星イニル — Novels';window.scrollTo(0,0);}
 function buildCards(){const groups={start:'cards-start',after:'cards-after',any:'cards-any',deep:'cards-deep'};for(const[key,novel] of Object.entries(NOVELS)){const c=document.getElementById(groups[novel.cat]);if(!c)continue;const d=document.createElement('div');d.className='wl-card cat-'+novel.cat;d.onclick=()=>selectWL(key);d.innerHTML='<div class="wl-num">'+novel.label+'</div><div class="wl-title">'+novel.title+'</div><div class="wl-desc">'+novel.desc+'</div>';c.appendChild(d);}}
+function buildBundles(){const c=document.getElementById('cards-bundles');if(!c)return;for(const bundle of Object.values(BUNDLES)){const d=document.createElement('div');d.className='bundle-card';d.onclick=()=>selectWL(bundle.entry);d.innerHTML='<div class="bundle-num">'+bundle.label+'</div><div class="bundle-title">'+bundle.title+'</div><div class="bundle-desc">'+bundle.desc+'</div><div class="bundle-works">'+bundle.works+'</div>';c.appendChild(d);}}
 async function selectWL(wl){currentWL=wl;const novel=NOVELS[wl];const res=await fetch(novel.file);chapters=await res.json();document.querySelector('.site-header h1').textContent=novel.title;showToc();}
 function showToc(){const novel=NOVELS[currentWL];document.getElementById('hero-section').style.display='none';document.getElementById('toc-section').style.display='block';document.getElementById('reader-section').classList.remove('active');document.getElementById('toc-wl-label').textContent=novel.label;document.getElementById('toc-title').textContent=novel.title;const list=document.getElementById('toc-list');list.innerHTML='';const read=JSON.parse(localStorage.getItem(currentWL+'-read')||'[]');chapters.forEach((ch,i)=>{const item=document.createElement('div');item.className='toc-item'+(read.includes(i)?' read':'');const isEp=ch.title.includes('エピローグ');const isInter=ch.title.includes('間章');let label=isEp?'Ep':isInter?'間':String(i+1).padStart(2,'0');item.innerHTML='<span class="num">'+label+'</span><span class="ttl">'+ch.title+'</span>';item.onclick=()=>loadChapter(i);list.appendChild(item);});window.scrollTo(0,0);}
 function loadChapter(idx){if(idx<0||idx>=chapters.length)return;currentChapter=idx;document.getElementById('hero-section').style.display='none';document.getElementById('toc-section').style.display='none';document.getElementById('reader-section').classList.add('active');const ch=chapters[idx];document.getElementById('chapter-title').textContent=ch.title;const body=document.getElementById('chapter-body');body.innerHTML='';ch.body.split('\n').forEach(line=>{const p=document.createElement('p');const t=line.trim();if(t==='')p.className='empty';else if(t==='*'){p.className='divider';p.textContent='\uFF0A';}else p.textContent=t;body.appendChild(p);});document.getElementById('prev-btn').disabled=idx===0;document.getElementById('next-btn').disabled=idx===chapters.length-1;document.getElementById('next-btn').textContent=idx===chapters.length-1?'\u2014 完 \u2014':'\u6B21\u8A71 \u2192';markRead(idx);window.scrollTo(0,0);}
@@ -122,6 +140,7 @@ function navChapter(d){loadChapter(currentChapter+d);}
 function markRead(idx){const key=currentWL+'-read';const read=JSON.parse(localStorage.getItem(key)||'[]');if(!read.includes(idx)){read.push(idx);localStorage.setItem(key,JSON.stringify(read));}}
 window.addEventListener('scroll',()=>{const h=document.documentElement;document.getElementById('progress').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight))*100+'%';});
 buildCards();
+buildBundles();
 </script>
 </body>
 </html>
