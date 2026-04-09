@@ -18,6 +18,7 @@
 .hero{min-height:auto;display:flex;flex-direction:column;align-items:center;text-align:center;padding:100px 24px 60px}
 .hero .universe-tag{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:24px}
 .hero h2{font-family:var(--display);font-size:clamp(24px,4vw,36px);font-weight:600;color:var(--text);line-height:1.3;margin-bottom:40px}
+.section-hint{font-family:var(--sans);font-size:12px;color:var(--text-dim);max-width:900px;margin:-4px auto 16px;padding:0 24px;text-align:left;line-height:1.6}
 .section-label{font-family:var(--sans);font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim);margin:32px auto 12px;max-width:900px;padding:0 24px;text-align:left}
 .wl-cards{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;max-width:900px;margin:0 auto;padding:0 24px 16px}
 .wl-card{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:24px 22px;width:280px;text-align:left;cursor:pointer;transition:all .3s}
@@ -25,7 +26,7 @@
 .wl-card .wl-num{font-family:var(--sans);font-size:10px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;color:var(--text-dim)}
 .wl-card .wl-title{font-family:var(--serif);font-size:17px;color:var(--text);margin-bottom:8px}
 .wl-card .wl-desc{font-size:12px;color:var(--text-mid);line-height:1.6}
-.wl-card.cat-main .wl-num{color:var(--teal)}.wl-card.cat-gaiden .wl-num{color:var(--purple)}.wl-card.cat-nichijou .wl-num{color:var(--green)}.wl-card.cat-seihon .wl-num{color:var(--amber)}.wl-card.cat-lattice .wl-num{color:var(--rose)}.wl-card.cat-fukabori .wl-num{color:var(--ember)}
+.wl-card.cat-start .wl-num{color:var(--teal)}.wl-card.cat-after .wl-num{color:var(--purple)}.wl-card.cat-any .wl-num{color:var(--green)}.wl-card.cat-deep .wl-num{color:var(--ember)}
 .toc{max-width:640px;margin:0 auto;padding:40px 24px 80px;display:none}
 .toc h3{font-family:var(--serif);font-size:14px;color:var(--text-dim);letter-spacing:.15em;margin-bottom:8px}
 .toc .toc-subtitle{font-family:var(--serif);font-size:18px;color:var(--text-mid);margin-bottom:24px}
@@ -54,18 +55,18 @@
 <section class="hero" id="hero-section">
   <div class="universe-tag">Planet Inir — All Works</div>
   <h2>惑星イニルの物語</h2>
-  <div class="section-label">長編</div>
-  <div class="wl-cards" id="cards-main"></div>
-  <div class="section-label">外伝</div>
-  <div class="wl-cards" id="cards-gaiden"></div>
-  <div class="section-label">照界の日常</div>
-  <div class="wl-cards" id="cards-nichijou"></div>
-  <div class="section-label">正本</div>
-  <div class="wl-cards" id="cards-seihon"></div>
-  <div class="section-label">ラティス</div>
-  <div class="wl-cards" id="cards-lattice"></div>
-  <div class="section-label">深掘り短編</div>
-  <div class="wl-cards" id="cards-fukabori"></div>
+  <div class="section-label" style="color:var(--teal)">&#9312; はじめに読む</div>
+  <div class="section-hint">どちらか1つから。灰の海は情報戦、祈りは辺境の教室。</div>
+  <div class="wl-cards" id="cards-start"></div>
+  <div class="section-label" style="color:var(--purple)">&#9313; 本編のあとに</div>
+  <div class="section-hint">灰の海を読んだなら左の4作から。</div>
+  <div class="wl-cards" id="cards-after"></div>
+  <div class="section-label" style="color:var(--green)">&#9314; どこから読んでもいい</div>
+  <div class="section-hint">日常、港、世界の原作層。本編を知らなくても入れる。</div>
+  <div class="wl-cards" id="cards-any"></div>
+  <div class="section-label" style="color:var(--ember)">&#9315; もっと深く</div>
+  <div class="section-hint">世界の手触り、制度の裏側、帳簿の外。</div>
+  <div class="wl-cards" id="cards-deep"></div>
 </section>
 <section class="toc" id="toc-section">
   <button class="back-btn" onclick="showHome()">&#8592; 作品一覧に戻る</button>
@@ -85,27 +86,27 @@
 <footer class="site-footer"><p>惑星イニル</p></footer>
 <script>
 const NOVELS={
-  wl1:{file:'chapters.json',label:'Worldline 01',title:'灰の海から届く声',cat:'main',desc:'情報統制の街で、調査者の女は三日間途絶えた回線を追う。消えた情報屋が最後に伝えたのは、名簿が先に作られているという事実だった。'},
-  wl2:{file:'chapters_wl2.json',label:'Worldline 02',title:'祈りの届かない場所',cat:'main',desc:'信仰が正しさの源泉である世界で、追放された少女騎士はリムランドの教室に辿り着く。祈りの代わりに、割り算を教え始めた。'},
-  gaiden_suzune:{file:'chapters_suzune.json',label:'外伝',title:'遮熱通路の女',cat:'gaiden',desc:'チガイの地下最深層で育った少女が、情報を武器に這い上がるまでの記録。'},
-  gaiden_naginoha:{file:'chapters_naginoha.json',label:'外伝',title:'凪の刀',cat:'gaiden',desc:'山を降りた鬼族の少女が、刀を手に灰境を駆ける六日間。'},
-  gaiden_haikyo:{file:'chapters_haikyo.json',label:'外伝',title:'灰境の日々',cat:'gaiden',desc:'配給日の市場、廃材楽器の夜、灰海の焚き火、猫を追う午後。'},
-  gaiden_sannin:{file:'chapters_sannin.json',label:'外伝',title:'三人の話',cat:'gaiden',desc:'損得の外にある関係。すずね、メフィー、凪羽の距離が変わる四つの夜。'},
-  nichijou_lisl:{file:'chapters_lisl.json',label:'照界の日常',title:'リィズルとアルス',cat:'nichijou',desc:'冷却服を選んで、整備庫で昼寝して、補習を受けて、魚弁当を交換する。'},
-  nichijou_myalka:{file:'chapters_myalka.json',label:'照界の日常',title:'ミャルカは今日も笑う',cat:'nichijou',desc:'衣装合わせ、握手会、楽屋の桃。笑顔の裏側にある日常。'},
-  seihon_choubo:{file:'chapters_choubo.json',label:'正本',title:'帳簿は合っている',cat:'seihon',desc:'義肢を渡す手が債務の鎖も編む。ナグロ親方の25年。'},
-  seihon_utaeru:{file:'chapters_utaeru.json',label:'正本',title:'まだ歌える',cat:'seihon',desc:'災厄を予見しながら沈黙を選ぶ観測者。アズラの85年。'},
-  seihon_anshin:{file:'chapters_anshin.json',label:'正本',title:'安心の設計者たち',cat:'seihon',desc:'嘘をつかずに安心を供給する技術。アルダーとルーセントの25年。'},
-  seihon_nami:{file:'chapters_nami.json',label:'正本',title:'波が決める',cat:'seihon',desc:'海は誰のものでもない。のに、誰かのものになっていく。ウネリの30年。'},
-  lattice:{file:'chapters_lattice.json',label:'ラティス外伝',title:'ラティスですれ違わない日',cat:'lattice',desc:'港で偶然すれ違うだけの五つの話。苦い茶、魚串、薬草、ぬるいスープ、祭りの飴。'},
-  fukabori:{file:'chapters_fukabori.json',label:'深掘り短編',title:'イニル深掘り短編',cat:'fukabori'},
-  setsubi:{file:'chapters_setsubi.json',label:'新シリーズ',title:'設備と呼ばれた日々',cat:'fukabori',desc:'合成人間ヨハナの内側。0.8秒の起動、0.9秒の逸脱、味噌汁の温度、桃の味。'},
-  itsume:{file:'chapters_itsume.json',label:'新シリーズ',title:'鋳爪商会帳簿外',cat:'fukabori',desc:'帳簿に載らない経済。ドーラの七十二年と、足をぶらぶらさせる椅子。'},
-  kenmon:{file:'chapters_kenmon.json',label:'新シリーズ',title:'検問灯の下で',cat:'fukabori',desc:'取り締まる側から見た灰境。異常なし、と書く夜。'},desc:'義肢工房、食卓、検査日、薄域紀行、通関、灰海、祈歌、配給、追跡、地下、合成人間、灰犬課、星図、造船、冷却服。十五編。'},
+  wl1:{file:'chapters.json',label:'本編',title:'灰の海から届く声',cat:'start',desc:'情報統制の街で、調査者の女は三日間途絶えた回線を追う。消えた情報屋が最後に伝えたのは、名簿が先に作られているという事実だった。'},
+  wl2:{file:'chapters_wl2.json',label:'本編',title:'祈りの届かない場所',cat:'start',desc:'信仰が正しさの源泉である世界で、追放された少女騎士はリムランドの教室に辿り着く。祈りの代わりに、割り算を教え始めた。'},
+  gaiden_suzune:{file:'chapters_suzune.json',label:'灰の海 外伝',title:'遮熱通路の女',cat:'after',desc:'チガイの地下最深層で育った少女が、情報を武器に這い上がるまでの記録。'},
+  gaiden_naginoha:{file:'chapters_naginoha.json',label:'灰の海 外伝',title:'凪の刀',cat:'after',desc:'山を降りた鬼族の少女が、刀を手に灰境を駆ける六日間。'},
+  gaiden_haikyo:{file:'chapters_haikyo.json',label:'灰の海 外伝',title:'灰境の日々',cat:'after',desc:'配給日の市場、廃材楽器の夜、灰海の焚き火、猫を追う午後。'},
+  gaiden_sannin:{file:'chapters_sannin.json',label:'灰の海 外伝',title:'三人の話',cat:'after',desc:'損得の外にある関係。すずね、メフィー、凪羽の距離が変わる四つの夜。'},
+  nichijou_lisl:{file:'chapters_lisl.json',label:'照界の日常',title:'リィズルとアルス',cat:'any',desc:'冷却服を選んで、整備庫で昼寝して、補習を受けて、魚弁当を交換する。'},
+  nichijou_myalka:{file:'chapters_myalka.json',label:'照界の日常',title:'ミャルカは今日も笑う',cat:'any',desc:'衣装合わせ、握手会、楽屋の桃。笑顔の裏側にある日常。'},
+  seihon_choubo:{file:'chapters_choubo.json',label:'正本',title:'帳簿は合っている',cat:'any',desc:'義肢を渡す手が債務の鎖も編む。ナグロ親方の25年。'},
+  seihon_utaeru:{file:'chapters_utaeru.json',label:'正本',title:'まだ歌える',cat:'any',desc:'災厄を予見しながら沈黙を選ぶ観測者。アズラの85年。'},
+  seihon_anshin:{file:'chapters_anshin.json',label:'正本',title:'安心の設計者たち',cat:'any',desc:'嘘をつかずに安心を供給する技術。アルダーとルーセントの25年。'},
+  seihon_nami:{file:'chapters_nami.json',label:'正本',title:'波が決める',cat:'any',desc:'海は誰のものでもない。のに、誰かのものになっていく。ウネリの30年。'},
+  lattice:{file:'chapters_lattice.json',label:'ラティス',title:'ラティスですれ違わない日',cat:'any',desc:'港で偶然すれ違うだけの五つの話。苦い茶、魚串、薬草、ぬるいスープ、祭りの飴。'},
+  fukabori:{file:'chapters_fukabori.json',label:'深掘り短編',title:'イニル深掘り短編',cat:'deep'},
+  setsubi:{file:'chapters_setsubi.json',label:'シリーズ',title:'設備と呼ばれた日々',cat:'deep',desc:'合成人間ヨハナの内側。0.8秒の起動、0.9秒の逸脱、味噌汁の温度、桃の味。'},
+  itsume:{file:'chapters_itsume.json',label:'シリーズ',title:'鋳爪商会帳簿外',cat:'deep',desc:'帳簿に載らない経済。ドーラの七十二年と、足をぶらぶらさせる椅子。'},
+  kenmon:{file:'chapters_kenmon.json',label:'シリーズ',title:'検問灯の下で',cat:'deep',desc:'取り締まる側から見た灰境。異常なし、と書く夜。'},desc:'義肢工房、食卓、検査日、薄域紀行、通関、灰海、祈歌、配給、追跡、地下、合成人間、灰犬課、星図、造船、冷却服。十五編。'},
 };
 let chapters=[],currentChapter=-1,currentWL='';
 function showHome(){document.getElementById('hero-section').style.display='flex';document.getElementById('toc-section').style.display='none';document.getElementById('reader-section').classList.remove('active');document.querySelector('.site-header h1').textContent='惑星イニル — Novels';window.scrollTo(0,0);}
-function buildCards(){const groups={main:'cards-main',gaiden:'cards-gaiden',nichijou:'cards-nichijou',seihon:'cards-seihon',lattice:'cards-lattice',fukabori:'cards-fukabori'};for(const[key,novel] of Object.entries(NOVELS)){const c=document.getElementById(groups[novel.cat]);if(!c)continue;const d=document.createElement('div');d.className='wl-card cat-'+novel.cat;d.onclick=()=>selectWL(key);d.innerHTML='<div class="wl-num">'+novel.label+'</div><div class="wl-title">'+novel.title+'</div><div class="wl-desc">'+novel.desc+'</div>';c.appendChild(d);}}
+function buildCards(){const groups={start:'cards-start',after:'cards-after',any:'cards-any',deep:'cards-deep'};for(const[key,novel] of Object.entries(NOVELS)){const c=document.getElementById(groups[novel.cat]);if(!c)continue;const d=document.createElement('div');d.className='wl-card cat-'+novel.cat;d.onclick=()=>selectWL(key);d.innerHTML='<div class="wl-num">'+novel.label+'</div><div class="wl-title">'+novel.title+'</div><div class="wl-desc">'+novel.desc+'</div>';c.appendChild(d);}}
 async function selectWL(wl){currentWL=wl;const novel=NOVELS[wl];const res=await fetch(novel.file);chapters=await res.json();document.querySelector('.site-header h1').textContent=novel.title;showToc();}
 function showToc(){const novel=NOVELS[currentWL];document.getElementById('hero-section').style.display='none';document.getElementById('toc-section').style.display='block';document.getElementById('reader-section').classList.remove('active');document.getElementById('toc-wl-label').textContent=novel.label;document.getElementById('toc-title').textContent=novel.title;const list=document.getElementById('toc-list');list.innerHTML='';const read=JSON.parse(localStorage.getItem(currentWL+'-read')||'[]');chapters.forEach((ch,i)=>{const item=document.createElement('div');item.className='toc-item'+(read.includes(i)?' read':'');const isEp=ch.title.includes('エピローグ');const isInter=ch.title.includes('間章');let label=isEp?'Ep':isInter?'間':String(i+1).padStart(2,'0');item.innerHTML='<span class="num">'+label+'</span><span class="ttl">'+ch.title+'</span>';item.onclick=()=>loadChapter(i);list.appendChild(item);});window.scrollTo(0,0);}
 function loadChapter(idx){if(idx<0||idx>=chapters.length)return;currentChapter=idx;document.getElementById('hero-section').style.display='none';document.getElementById('toc-section').style.display='none';document.getElementById('reader-section').classList.add('active');const ch=chapters[idx];document.getElementById('chapter-title').textContent=ch.title;const body=document.getElementById('chapter-body');body.innerHTML='';ch.body.split('\n').forEach(line=>{const p=document.createElement('p');const t=line.trim();if(t==='')p.className='empty';else if(t==='*'){p.className='divider';p.textContent='\uFF0A';}else p.textContent=t;body.appendChild(p);});document.getElementById('prev-btn').disabled=idx===0;document.getElementById('next-btn').disabled=idx===chapters.length-1;document.getElementById('next-btn').textContent=idx===chapters.length-1?'\u2014 完 \u2014':'\u6B21\u8A71 \u2192';markRead(idx);window.scrollTo(0,0);}
