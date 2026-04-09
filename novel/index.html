@@ -98,7 +98,10 @@ const NOVELS={
   seihon_anshin:{file:'chapters_anshin.json',label:'正本',title:'安心の設計者たち',cat:'seihon',desc:'嘘をつかずに安心を供給する技術。アルダーとルーセントの25年。'},
   seihon_nami:{file:'chapters_nami.json',label:'正本',title:'波が決める',cat:'seihon',desc:'海は誰のものでもない。のに、誰かのものになっていく。ウネリの30年。'},
   lattice:{file:'chapters_lattice.json',label:'ラティス外伝',title:'ラティスですれ違わない日',cat:'lattice',desc:'港で偶然すれ違うだけの五つの話。苦い茶、魚串、薬草、ぬるいスープ、祭りの飴。'},
-  fukabori:{file:'chapters_fukabori.json',label:'深掘り短編',title:'イニル深掘り短編',cat:'fukabori',desc:'義肢工房、食卓、検査日、薄域紀行、通関、灰海、祈歌、配給、追跡、地下。世界を体験する十編。'},
+  fukabori:{file:'chapters_fukabori.json',label:'深掘り短編',title:'イニル深掘り短編',cat:'fukabori'},
+  setsubi:{file:'chapters_setsubi.json',label:'新シリーズ',title:'設備と呼ばれた日々',cat:'fukabori',desc:'合成人間ヨハナの内側。0.8秒の起動、0.9秒の逸脱、味噌汁の温度、桃の味。'},
+  itsume:{file:'chapters_itsume.json',label:'新シリーズ',title:'鋳爪商会帳簿外',cat:'fukabori',desc:'帳簿に載らない経済。ドーラの七十二年と、足をぶらぶらさせる椅子。'},
+  kenmon:{file:'chapters_kenmon.json',label:'新シリーズ',title:'検問灯の下で',cat:'fukabori',desc:'取り締まる側から見た灰境。異常なし、と書く夜。'},desc:'義肢工房、食卓、検査日、薄域紀行、通関、灰海、祈歌、配給、追跡、地下、合成人間、灰犬課、星図、造船、冷却服。十五編。'},
 };
 let chapters=[],currentChapter=-1,currentWL='';
 function showHome(){document.getElementById('hero-section').style.display='flex';document.getElementById('toc-section').style.display='none';document.getElementById('reader-section').classList.remove('active');document.querySelector('.site-header h1').textContent='惑星イニル — Novels';window.scrollTo(0,0);}
