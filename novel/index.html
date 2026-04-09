@@ -22,6 +22,11 @@
 .reading-note h3{font-family:var(--sans);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);margin-bottom:10px}
 .reading-note p{font-size:12px;color:var(--text-mid);line-height:1.8;margin:0 0 8px}
 .reading-note p:last-child{margin-bottom:0}
+.trial-grid{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;max-width:900px;margin:0 auto;padding:0 24px 8px}
+.trial-card{background:rgba(12,14,24,0.8);border:1px solid var(--border);border-radius:8px;padding:18px 18px 16px;width:280px;text-align:left}
+.trial-card .trial-step{font-family:var(--sans);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:8px}
+.trial-card .trial-title{font-family:var(--serif);font-size:17px;color:var(--text);margin-bottom:8px}
+.trial-card .trial-desc{font-size:12px;color:var(--text-mid);line-height:1.7}
 .section-hint{font-family:var(--sans);font-size:12px;color:var(--text-dim);max-width:900px;margin:-4px auto 16px;padding:0 24px;text-align:left;line-height:1.6}
 .section-label{font-family:var(--sans);font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim);margin:32px auto 12px;max-width:900px;padding:0 24px;text-align:left}
 .wl-cards{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;max-width:900px;margin:0 auto;padding:0 24px 16px}
@@ -64,6 +69,25 @@
   <a href="../">← World Codex</a>
 </header>
 <section class="hero" id="hero-section">
+  <div class="section-label" style="color:var(--teal)">試し読み順</div>
+  <div class="section-hint">初見向けの最短導線です。本編2作から入り、地続きの感触を掴んだあとに番外や短編へ横に広げます。</div>
+  <div class="trial-grid">
+    <div class="trial-card">
+      <div class="trial-step">Step 1</div>
+      <div class="trial-title">灰の海から届く声</div>
+      <div class="trial-desc">灰境の街から入って、遠くの文明の決定が遅れて生活へ落ちてくる読み味を掴む入口。</div>
+    </div>
+    <div class="trial-card">
+      <div class="trial-step">Step 2</div>
+      <div class="trial-title">祈りの届かない場所</div>
+      <div class="trial-desc">月虹界側の手順と信仰から入り、同じ世界の別の圧と制度の継ぎ目を見る入口。</div>
+    </div>
+    <div class="trial-card">
+      <div class="trial-step">Step 3</div>
+      <div class="trial-title">気になった文明を横へ掘る</div>
+      <div class="trial-desc">ラティス、照界の日常、月虹遭難編、深掘り短編へ広げて、群像劇としての地続き感を追う。</div>
+    </div>
+  </div>
   <div class="reading-note">
     <h3>Reading Guide</h3>
     <p>イニルは、照界・月虹界・灰境・海洋が物理的に離れつつ、制度と物流と噂で少しずつ影響し合う群像劇です。</p>
