@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta property="og:title" content="惑星イニル — Novels">
-<meta property="og:description" content="惑星イニルの物語。仮想空間ではなく、物理世界の文明圏が少しずつ影響し合う全24作品。">
+<meta property="og:description" content="惑星イニルの物語。仮想空間ではなく、物理世界の文明圏が少しずつ影響し合う全30作品。">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>惑星イニル — Novels</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -67,7 +67,7 @@ body::before{content:"";position:fixed;inset:0;z-index:-2;background-image:linea
     <aside class="hero-panel" aria-label="Reading guide">
       <div class="paper-card">
         <div class="paper-kicker">Reader Route</div>
-        <div class="paper-title">まずは本編2作。<br>そのあと、気になった文明へ横に掘る。</div>
+        <div class="paper-title">まずは第1〜2部。<br>そのあと、本編続巻か気になった文明へ。</div>
         <div class="paper-lines">
           <div class="paper-line">
             <span>01</span>
@@ -79,7 +79,7 @@ body::before{content:"";position:fixed;inset:0;z-index:-2;background-image:linea
           </div>
           <div class="paper-line">
             <span>03</span>
-            <p>番外、日常、短編で、同じ世界の別の温度へ移る。</p>
+            <p>第3部以降や番外で、同じ世界の別の温度へ移る。</p>
           </div>
         </div>
       </div>
@@ -91,7 +91,7 @@ body::before{content:"";position:fixed;inset:0;z-index:-2;background-image:linea
         <div class="section-label" style="color:var(--teal)">First Read</div>
         <h2>試し読み順</h2>
       </div>
-      <p>初見向けの最短導線です。本編2作から入り、地続きの感触を掴んだあとに番外や短編へ横に広げます。</p>
+      <p>初見向けの最短導線です。第1〜2部から入り、地続きの感触を掴んだあとに本編続巻や番外へ広げます。</p>
     </div>
     <div class="trial-grid">
       <div class="trial-card" onclick="selectWL('wl1')">
@@ -107,7 +107,7 @@ body::before{content:"";position:fixed;inset:0;z-index:-2;background-image:linea
       <div class="trial-card trial-jump" onclick="document.getElementById('all-works').scrollIntoView({behavior:'smooth'})">
         <div class="trial-step">Step 3</div>
         <div class="trial-title">気になった文明を横へ掘る</div>
-        <div class="trial-desc">ラティス、照界の日常、月虹遭難編、深掘り短編へ広げて、群像劇としての地続き感を追う。</div>
+        <div class="trial-desc">第3部以降や番外へ広げて、群像劇としての地続き感を追う。</div>
       </div>
     </div>
   </div>
@@ -116,7 +116,7 @@ body::before{content:"";position:fixed;inset:0;z-index:-2;background-image:linea
       <h3>Reading Guide</h3>
       <p>イニルは仮想空間ではなく、照界・月虹界・灰境・海洋が同じ星の上で物理的に離れつつ、制度と物流と噂で少しずつ影響し合う群像劇です。</p>
       <p>誰か一人が世界を一気に変える話ではなく、離れた土地の決定が遅れて別の土地へ落ちてくる、その連鎖を読む作品群として入ると追いやすくなります。</p>
-      <p>まずは本編2作のどちらかから入り、気になった文明や地域を番外と短編で横に掘る読み方を想定しています。</p>
+      <p>まずは第1〜2部のどちらかから入り、気になった文明や地域を本編続巻、番外、短編で横に掘る読み方を想定しています。</p>
     </div>
   </div>
   <div class="section-block" id="bundles">
@@ -145,7 +145,7 @@ body::before{content:"";position:fixed;inset:0;z-index:-2;background-image:linea
   </div>
   <div class="section-block">
     <div class="section-label" style="color:var(--purple)">&#9313; 本編のあとに</div>
-    <div class="section-hint">本編2作のあとに終焉弧へ進むか、灰境側の外伝へ横に広げる入口です。</div>
+    <div class="section-hint">本編を続けるなら第3部以降へ。灰の海を掘るなら外伝へ。</div>
     <div class="wl-cards" id="cards-after"></div>
   </div>
   <div class="section-block">
@@ -190,7 +190,12 @@ body::before{content:"";position:fixed;inset:0;z-index:-2;background-image:linea
 const NOVELS={
   wl1:{file:'chapters.json',label:'本編',title:'灰の海から届く声',cat:'start',desc:'灰境の街で、調査者の女は三日間途絶えた回線を追う。照界・月虹界・海洋の決定が遅れて落ちてくる、物理世界の群像劇。'},
   wl2:{file:'chapters_wl2.json',label:'本編',title:'祈りの届かない場所',cat:'start',desc:'信仰が正しさの源泉である月虹界で、追放された少女騎士は辺境の教室に辿り着く。祈りと制度の継ぎ目を歩く群像劇。'},
-  nokotta_asa:{file:'chapters_nokotta_asa.json',label:'共有終焉弧',title:'残った朝',cat:'after',desc:'本編2作の先で、照界・月虹界・灰境・港の遅れが一本に重なる。世界は止まらないが、残せるものを選ぶ十三章。'},
+  main_shokai:{file:'chapters_main_shokai.json',label:'第3部',title:'照界のやさしい檻',cat:'after',desc:'HopeCast、AP-I、白い保守通路。安全という言葉が、台本と導線を少しずつ変えていく照界編。'},
+  main_haiken:{file:'chapters_main_haiken.json',label:'第4部',title:'灰犬課の人間',cat:'after',desc:'診療所の外に線が引かれ、ナグロの管轄化と灰犬課の現場判断が、守る場所を割っていく灰境治安編。'},
+  main_hamono:{file:'chapters_main_hamono.json',label:'第5部',title:'刃の側の正しさ',cat:'after',desc:'リムランド内戦、聖槍会、短槍の少女。待てなかった側の正しさと、教室が聖域でなくなる月虹編。'},
+  main_nifuda:{file:'chapters_main_nifuda.json',label:'第6部',title:'星図にない荷札',cat:'after',desc:'港、ラティス、通関、名前のない荷札。各地の遅れが、同じ遅れとして港へ集まる海洋・潮廻編。'},
+  main_kousa:{file:'chapters_main_kousa.json',label:'第7部',title:'もう別々ではいられない',cat:'after',desc:'直接合流前のニアミス、通信ログ、画面越しの接触。主要線が一本になり、終焉弧へ入る交差前夜。'},
+  main_nokotta:{file:'chapters_main_nokotta.json',label:'第8部',title:'残った朝',cat:'after',desc:'戦争、保護、制度、避難。世界は止まらないが、残せるものを一つずつ選ぶ共有終焉弧。'},
   gaiden_suzune:{file:'chapters_suzune.json',label:'灰の海 外伝',title:'遮熱通路の女',cat:'after',desc:'チガイの地下最深層で育った少女が、情報を武器に這い上がるまでの記録。'},
   gaiden_naginoha:{file:'chapters_naginoha.json',label:'灰の海 外伝',title:'凪の刀',cat:'after',desc:'山を降りた鬼族の少女が、刀を手に灰境を駆ける六日間。'},
   gaiden_haikyo:{file:'chapters_haikyo.json',label:'灰の海 外伝',title:'灰境の日々',cat:'after',desc:'配給日の市場、廃材楽器の夜、灰海の焚き火、猫を追う午後。'},
