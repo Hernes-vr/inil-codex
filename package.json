@@ -1,0 +1,18 @@
+{
+  "name": "inil-codex-web",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Static web reader for Inir fiction.",
+  "scripts": {
+    "lint:prose": "textlint index.html novel/index.html",
+    "lint:prose:fix": "textlint --fix index.html novel/index.html",
+    "lint:prose:changed": "node scripts/lint-prose-changed.mjs",
+    "hooks:install": "node scripts/install-git-hooks.mjs",
+    "hooks:doctor": "node scripts/check-git-hooks.mjs"
+  },
+  "devDependencies": {
+    "textlint": "^15.5.4",
+    "textlint-plugin-html": "^1.0.1",
+    "textlint-rule-preset-japanese": "^10.0.4"
+  }
+}

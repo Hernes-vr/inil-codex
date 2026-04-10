@@ -1,0 +1,12 @@
+#!/bin/sh
+
+echo "Running changed-file prose lint..."
+npm run lint:prose:changed
+
+status=$?
+if [ $status -ne 0 ]; then
+  echo "Pre-commit blocked: prose lint failed."
+  exit $status
+fi
+
+exit 0
